@@ -22,7 +22,7 @@ if($button_group)
 		if($button_group['button_link'])
 		{
 		$html .= '<div class="button_wrap">';
-		$html .= '<a class="button-link button-link-'.$button_group['button_type'].' hvr-sweep-to-right" href="'.$button_group['button_link']['url'].'" target="'.$button_group['button_link']['target'].'">'.$button_group['button_link']['title'].'<svg xmlns="http://www.w3.org/2000/svg" width="15.685" height="38.088" viewBox="0 0 15.685 38.088"> <g id="arrow-down-short" transform="translate(-10.124 19.875)"> <path id="Path_28" data-name="Path 28" d="M10.453,17.2a1.12,1.12,0,0,1,1.586,0l5.927,5.93,5.928-5.93a1.122,1.122,0,1,1,1.586,1.586l-6.721,6.721a1.12,1.12,0,0,1-1.586,0l-6.721-6.721a1.12,1.12,0,0,1,0-1.586Z" transform="translate(0 -7.625)" fill="#4e5351" fill-rule="evenodd"/> <path id="Path_29" data-name="Path 29" d="M18-19.875a1.12,1.12,0,0,1,1.12,1.12V14.851a1.12,1.12,0,0,1-2.24,0V-18.755A1.12,1.12,0,0,1,18-19.875Z" transform="translate(-0.029)" fill="#4e5351" fill-rule="evenodd"/></g></svg></a>';
+		$html .= '<a class="button-link button-link-'.$button_group['button_type'].' hvr-sweep-to-right" href="'.$button_group['button_link']['url'].'" target="'.$button_group['button_link']['target'].'">'.$button_group['button_link']['title'].'<img src="'.site_url().'/wp-content/uploads/2022/07/vertical-arrow.svg"></a>';
 		$html .= '</div>';
 	}
 		

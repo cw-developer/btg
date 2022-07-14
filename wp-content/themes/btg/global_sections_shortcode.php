@@ -47,20 +47,15 @@ function btg_values_section()
 	<?php 
 $html = '';
 $background_color = get_sub_field('background_color', 'option');
-$image_id = get_sub_field('image', 'option');
-$img_url = wp_get_attachment_image_src($image_id, 'full');
-$image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
-$image_title = get_the_title($image_id);
+$image = get_sub_field('image', 'option');
 $cta_content = get_sub_field('cta_content', 'option');
 $content = get_sub_field('content', 'option');
 $cta_button = get_sub_field('cta_button', 'option');
 $values = get_sub_field('values', 'option');
-// print_r($values);
-// exit();
 $html .= '<section class="btg_values_section-block" style="background-color: '.$background_color.';">';
 $html .= '<div class="container"><div class="row values_map_row"><div class="col-md-8 p-0">';
 $html .= '<div class="image_item">';
-$html .= '<img src="'.$img_url[0].'" width="'.$img_url[1].'" height="'.$img_url[2].'" alt="'.$image_title.'" title="'.$image_title.'">';
+$html .= '<img src="'.$image['url'].'" title="'.$image['title'].'" alt="'.$image['alt'].'" width="'.$image['width'].'" height="'.$image['height'].'">';
 $html .= '</div></div>';
 $html .= '<div class="col-md-4 ps-0"><div class="cta_wrap content-color-Light"><div class="content_wrap cta_content_wrap content-color-Light">';
 $html .= $cta_content;
@@ -81,7 +76,7 @@ $html .= '</div>';
 			$html .= '<div class="values_wrap">';
 			foreach( $values as $value ) {
 				$html .= '<div class="value_item item">';
-				$html .= '<img src="'.wp_get_attachment_image_src($value['image'], "full")[0].'" width="'.wp_get_attachment_image_src($value['image'], "full")[1].'" height="'.wp_get_attachment_image_src($value['image'], "full")[2].'" alt="'.get_the_title($value['image']).'" title="'.get_the_title($value['image']).'">';
+				$html .= '<img src="'.$value['image']['url'].'" title="'.$value['image']['title'].'" alt="'.$value['image']['alt'].'" width="'.$value['image']['width'].'" height="'.$value['image']['height'].'">';
 				$html .= '<p>'.$value['content'].'</p>';
 				$html .= '</div>';
 			}
