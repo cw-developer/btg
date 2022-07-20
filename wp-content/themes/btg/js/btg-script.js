@@ -70,7 +70,7 @@ function values_carousel(){
 
 
 
-		jQuery(document).ready(function($) {	
+jQuery(document).ready(function($) {	
 			
 			$('[data-toggle="popover"]').popover({
 	          //trigger: 'focus',
@@ -96,8 +96,8 @@ function values_carousel(){
     		 	}
 
     		 });
-			 $('.article_title_wrap a').hover(function () { $(this).parent().parent().parent().toggleClass('title-hover'); });
-			 $('.pr_readmore_wrap a').hover(function () { $(this).parent().parent().toggleClass('readmore-hover'); });
+			 $('.article_title_wrap a').hover(function () { $(this).parents('.pr_wrap').toggleClass('title-hover'); });
+			 $('.pr_readmore_wrap a').hover(function () { $(this).parents('.pr_wrap').toggleClass('readmore-hover'); });
     		});	
 
 jQuery(document).scroll(function() 
@@ -113,7 +113,7 @@ jQuery('#gototop').click(function(e) {
   e.preventDefault();
   jQuery('html, body').animate({scrollTop:0}, 500);
 });
-	});
+});
 
   
   function isInViewport(thisV) {
@@ -125,13 +125,13 @@ jQuery('#gototop').click(function(e) {
 };
 
 function revealleft() {
-  var reveals = document.querySelectorAll("section");
+  var reveals = document.querySelectorAll(".animation_collection");
   for (var i = 0; i < reveals.length; i++) {
     var windowHeight = window.innerHeight;
     var elementTop = reveals[i].getBoundingClientRect().top;
-    var elementVisible = 50;
+    var elementVisible = 500;
     if (elementTop < windowHeight - elementVisible) {
-      reveals[i].classList.add("active");
+      reveals[i].classList.add("animation_active");
     }
   }
 }
@@ -145,7 +145,7 @@ window.addEventListener("scroll", revealleft);
 //     var elementTop = reveals[i].getBoundingClientRect().bottom;
 //     var elementVisible = 50;
 //     if (elementTop < windowHeight - elementVisible) {
-//       reveals[i].classList.add("active");
+//       reveals[i].classList.add("animation_active_reverse");
 // 		$("section.active").animate({right: '0', opacity:'1'}, 1200);	
 //     }
 //   }
@@ -167,4 +167,8 @@ jQuery(document).ready(function($) {
 	$("a.mk-fullscreen-close").click(function() {
 	  $("div.mk-fullscreen-search-overlay").removeClass("mk-fullscreen-search-overlay-show");
 	});
+	$('.nav-tabs a:first').tab('show');
+	$(".close_button").click(function(){
+		$(".hideme").hide();
+	  });
   });

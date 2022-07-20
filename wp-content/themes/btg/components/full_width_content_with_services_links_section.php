@@ -28,7 +28,7 @@ if($button_group)
 		if($button_group['button_link'])
 		{
 		$html .= '<div class="button_wrap">';
-		$html .= '<a class="button-link button-link-'.$button_group['button_type'].' hvr-sweep-to-right" href="'.$button_group['button_link']['url'].'" target="'.$button_group['button_link']['target'].'">'.$button_group['button_link']['title'].'<svg xmlns="http://www.w3.org/2000/svg" width="15.685" height="38.088" viewBox="0 0 15.685 38.088"> <g id="arrow-down-short" transform="translate(-10.124 19.875)"> <path id="Path_28" data-name="Path 28" d="M10.453,17.2a1.12,1.12,0,0,1,1.586,0l5.927,5.93,5.928-5.93a1.122,1.122,0,1,1,1.586,1.586l-6.721,6.721a1.12,1.12,0,0,1-1.586,0l-6.721-6.721a1.12,1.12,0,0,1,0-1.586Z" transform="translate(0 -7.625)" fill="#4e5351" fill-rule="evenodd"/> <path id="Path_29" data-name="Path 29" d="M18-19.875a1.12,1.12,0,0,1,1.12,1.12V14.851a1.12,1.12,0,0,1-2.24,0V-18.755A1.12,1.12,0,0,1,18-19.875Z" transform="translate(-0.029)" fill="#4e5351" fill-rule="evenodd"/></g></svg></a>';
+		$html .= '<a class="button-link button-link-'.$button_group['button_type'].' hvr-sweep-to-right" href="'.$button_group['button_link']['url'].'" target="'.$button_group['button_link']['target'].'">'.$button_group['button_link']['title'].'<img src="'.site_url().'/wp-content/uploads/2022/07/vertical-arrow.svg"></a>';
 		$html .= '</div>';
 	}
 		
@@ -37,15 +37,9 @@ $html .= '</div>';
 if( $service_links ) {
   $html .= '<div class="service_links_row">';
   foreach( $service_links as $service_link ) {
-      $html .= '<div class="service_link">';
+      $html .= '<div class="service_link box_link">';
       if($service_link['link']){
-      $html .= '<a href="'.$service_link['link']['url'].'" target="'.$service_link['link']['target'].'"> '.$service_link['link']['title'].'<svg xmlns="http://www.w3.org/2000/svg" width="36.703" height="15.685" viewBox="0 0 36.703 15.685">
-      <g id="arrow-down-short" transform="translate(0 15.685) rotate(-90)">
-        <path id="Path_28" data-name="Path 28" d="M.329.317a1.15,1.15,0,0,1,1.586,0L7.842,6.032,13.771.317a1.152,1.152,0,0,1,1.586,0,1.053,1.053,0,0,1,0,1.528L8.636,8.322a1.15,1.15,0,0,1-1.586,0L.329,1.846a1.052,1.052,0,0,1,0-1.528Z" transform="translate(0 28.064)" fill="#4e5351" fill-rule="evenodd"/>
-        <path id="Path_29" data-name="Path 29" d="M1.12,0A1.1,1.1,0,0,1,2.24,1.079V33.463a1.1,1.1,0,0,1-1.12,1.079A1.1,1.1,0,0,1,0,33.463V1.079A1.1,1.1,0,0,1,1.12,0Z" transform="translate(6.722 0)" fill="#4e5351" fill-rule="evenodd"/>
-      </g>
-    </svg>
-      </a>';
+      $html .= '<a href="'.$service_link['link']['url'].'" target="'.$service_link['link']['target'].'"> '.$service_link['link']['title'].'<img src="'.site_url().'/wp-content/uploads/2022/07/horizontal-arrow.svg"></a>';
     }
       $html .= '</div>';
   }

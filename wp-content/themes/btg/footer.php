@@ -20,22 +20,19 @@
 			<div class="col-md-1">
 			<div class="footer_logo_wrap">
 				<?php
-			$image_id = get_sub_field('footer_logo', 'option');
-$img_url = wp_get_attachment_image_src($image_id, 'full');
-$image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
-$image_title = get_the_title($image_id);
+			$image = get_sub_field('footer_logo', 'option');
 ?>
-<img src="<?php echo $img_url[0]; ?>" width="<?php echo $img_url[1]; ?>" height="<?php echo $img_url[2]; ?>" alt="<?php echo $image_alt; ?>" title="<?php echo $image_title; ?>">		
+<img src="<?php echo $image['url']; ?>" width="<?php echo $image['width']; ?>" height="<?php echo $image['height']; ?>" alt="<?php echo $image['alt']; ?>" title="<?php echo $image['title']; ?>">	
 				</div>
 			</div>
-			<div class="col-md-7">
+			<div class="col-md-8 d-flex align-items-center">
 				<div class="footer_content_wrap">
 					<?php echo get_sub_field('content_block', 'option'); ?>
 				</div>
 			</div>
 			<div class="col-md-1">
 </div>
-			<div class="col-md-3">
+			<div class="col-md-2 d-flex align-items-center">
 			<?php if(have_rows('button_group', 'option')):?>
     <?php while( have_rows('button_group', 'option') ): the_row(); 	
 $button_type = get_sub_field('button_type', 'option'); 
@@ -46,7 +43,7 @@ if( $link ):
     $link_target = $link['target'] ? $link['target'] : '_self';
     ?>
 	<div class="button_wrap">
-    <a class="button-link button-link-<?php echo $button_type; ?> hvr-sweep-to-right" href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>"><?php echo esc_html( $link_title ); ?></a>
+    <a class="button-link button-link-<?php echo $button_type; ?> hvr-sweep-to-right" href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>"><span><?php echo esc_html( $link_title ); ?></span></a>
 	</div>
 	
 <?php endif; ?>
@@ -55,7 +52,7 @@ if( $link ):
 			</div>
 		</div>
 		<div class="row footer_middle_row">
-			<div class="col-md-9">
+			<div class="col-md-10">
 				<div class="footer_middle_menus">
 					<div class="footer_col">
 	<h6><?php echo wp_get_nav_menu_name('quick-links'); ?></h6>
@@ -95,15 +92,12 @@ if( $link ):
 </div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-2">
 			<div class="footer_img_wrap">
 				<?php
-			$image_id = get_sub_field('footer_100_years_logo', 'option');
-$img_url = wp_get_attachment_image_src($image_id, 'full');
-$image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
-$image_title = get_the_title($image_id);
+			$image = get_sub_field('footer_100_years_logo', 'option');
 ?>
-<img src="<?php echo $img_url[0]; ?>"  width="<?php echo $img_url[1]; ?>" height="<?php echo $img_url[2]; ?>" alt="<?php echo $image_alt; ?>" title="<?php echo $image_title; ?>">		
+<img src="<?php echo $image['url']; ?>" width="<?php echo $image['width']; ?>" height="<?php echo $image['height']; ?>" alt="<?php echo $image['alt']; ?>" title="<?php echo $image['title']; ?>">	
 				</div>	
 			</div>
 
@@ -145,17 +139,14 @@ $all_ids = ( ! empty( $pages ) )
 <?php while(have_rows('company_logos', 'option')): the_row();?>
 	<div class="boxed-item">
 <?php 
-$image_id = get_sub_field('logo', 'option');
-$img_url = wp_get_attachment_image_src($image_id, 'full');
-$image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
-$image_title = get_the_title($image_id);
+$image = get_sub_field('logo', 'option');
 $link = get_sub_field('link', 'option');
 if($link) {
     $link_url = $link['url'];
     $link_title = $link['title'];
     $link_target = $link['target'] ? $link['target'] : '_self';
-	?> <a  href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>"><img src="<?php echo $img_url[0]; ?>" width="<?php echo $img_url[1]; ?>" height="<?php echo $img_url[2]; ?>" alt="<?php echo $image_alt; ?>" title="<?php echo $image_title; ?>">  </a> <?php } else { ?>
-<img src="<?php echo $img_url[0]; ?>" width="<?php echo $img_url[1]; ?>" height="<?php echo $img_url[2]; ?>" alt="<?php echo $image_alt; ?>" title="<?php echo $image_title; ?>">  
+	?> <a  href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>"><img src="<?php echo $image['url']; ?>" width="<?php echo $image['width']; ?>" height="<?php echo $image['height']; ?>" alt="<?php echo $image['alt']; ?>" title="<?php echo $image['title']; ?>">  </a> <?php } else { ?>
+<img src="<?php echo $image['url']; ?>" width="<?php echo $image['width']; ?>" height="<?php echo $image['height']; ?>" alt="<?php echo $image['alt']; ?>" title="<?php echo $image['title']; ?>">  
 	<?php } ?>
 </div>
 	<?php endwhile; ?>

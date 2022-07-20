@@ -82,7 +82,7 @@
 								?>
 							</nav><!-- #site-navigation -->	
 								</div>
-								<div class="lang_wrap">
+ 								<div class="lang_wrap">
 								<?php echo do_shortcode('[language-switcher]'); ?>	
 								</div>
 								<div class="mybtg_wrap">

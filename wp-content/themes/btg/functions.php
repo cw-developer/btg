@@ -132,7 +132,7 @@ function btg_scripts() {
     wp_enqueue_style( 'btg-dev-style', get_template_directory_uri() . '/btg-style.css');
     wp_enqueue_style( 'btg-responsive-style', get_template_directory_uri() . '/responsive-style.css');
     wp_enqueue_style( 'btg-mobile-style', get_template_directory_uri() . '/css/mobile_menu.css');
-    wp_enqueue_style( 'btg-font', 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap' );
+    wp_enqueue_style( 'btg-font', 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap' );
     wp_enqueue_script( 'slider-tiny-carousel-js', get_template_directory_uri() . '/js/tiny-slider.js', '2.2', true);
     wp_enqueue_style( 'slider-tiny-carousel-css', get_template_directory_uri() . '/css/tiny-slider.css' ); 
     wp_enqueue_script( 'btg-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
@@ -747,6 +747,14 @@ function get_components() {
 	}
 }
 
+function get_about_components() {
+	$dir = get_template_directory() . '/components/about_component';
+	foreach ( array_filter( glob( $dir . '/*.*' ), 'is_file' ) as $aboutfile ) {
+		about_component( $aboutfile );
+	}
+}
+
+
 /**
  * Include template components and set up content data
  */
@@ -754,6 +762,12 @@ function component( $file, $c = null ) {
 	global $content_component;
 	$content = $c;
 	require $file;
+}
+
+function about_component( $about_file, $about_c = null ) {
+	global $about_component;
+	$aboutcontent = $about_c;
+	require $about_file;
 }
 
 require_once('global_sections_shortcode.php' );
@@ -859,55 +873,6 @@ function unset_url_field($fields){
 	if(isset($fields['url'])) unset($fields['url']); return $fields; 
 }
 
-// Prevent Multi Submit on all WPCF7 forms
-add_action( 'wp_footer', 'prevent_cf7_multiple_emails' );
-
-function prevent_cf7_multiple_emails() {
-?>
-<script>
-var disableSubmit = false;
-jQuery('input.wpcf7-submit[type="submit"]').click(function() {
-jQuery(':input[type="submit"]').attr('value',"Sending…");
-if (disableSubmit == true) {
-return false;
-}
-disableSubmit = true;
-return true;
-})
-
-jQuery('button.wpcf7-submit').click(function() {
-jQuery('button.wpcf7-submit').innerHTML("Sending…");
-if (disableSubmit == true) {
-return false;
-}
-disableSubmit = true;
-return true;
-})
-
-var wpcf7Elm = document.querySelector( '.wpcf7' );
-wpcf7Elm.addEventListener( 'wpcf7_before_send_mail', function( event ) {
-jQuery('button.wpcf7-submit').innerHTML("Sent");
-disableSubmit = false;
-}, false );
-
-wpcf7Elm.addEventListener( 'wpcf7_before_send_mail', function( event ) {
-jQuery('.wpcf7 :input[type="submit"]').attr('value',"Sent");
-disableSubmit = false;
-}, false );
-
-wpcf7Elm.addEventListener( 'wpcf7invalid', function( event ) {
-jQuery('button.wpcf7-submit').innerHTML("Submit");
-disableSubmit = false;
-}, false );
-
-wpcf7Elm.addEventListener( 'wpcf7invalid', function( event ) {
-jQuery('.wpcf7 :input[type="submit"]').attr('value',"Submit");
-disableSubmit = false;
-}, false );
-		
-		</script>
-<?php	
-}
 //Changing logo onadmin login page
 function cw_admin_dashboard() {  ?> 
 	<style> 

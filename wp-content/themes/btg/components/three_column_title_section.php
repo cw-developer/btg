@@ -1,16 +1,12 @@
 <?php if( get_row_layout() == 'three_column_title_section' ):
 $html = '';
-$background_color = get_sub_field('background_color');
 $title_box_1 = get_sub_field('title_box_1');
 $title_box_2 = get_sub_field('title_box_2');
-$image_id = get_sub_field('image');
-$img_url = wp_get_attachment_image_src($image_id, 'full');
-$image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
-$image_title = get_the_title($image_id);
+$image = get_sub_field('image');
 $bottom_title_content = get_sub_field('bottom_title_content');
 $bottom_content_left = get_sub_field('bottom_content_left');
 $bottom_content_right = get_sub_field('bottom_content_right');
-$html .= '<section class="three_column_title_section-block" style="background-color: '.$background_color.'">';
+$html .= '<section class="three_column_title_section-block">';
 $html .= '<div class="top_section"><div class="container-fluid"><div class="row top_row"><div class="col-md-9 p-0">';
 $html .= '<div class="title_boxes_wrap"><div class="title_content_wrap first_title_box">';
 $html .= '<div class="breadcrumbs_wrap">'.get_breadcrumb().'</div>';
@@ -21,7 +17,7 @@ $html .= $title_box_2;
 $html .= '</div>';
 $html .= '</div></div>';
 $html .= '<div class="col-md-3 p-0"><div class="title_image_wrap">';
-$html .= '<img src="'.$img_url[0].'" width="'.$img_url[1].'" height="'.$img_url[2].'" alt="'.$image_title.'" title="'.$image_title.'">';
+$html .= '<img src="'.$image['url'].'" title="'.$image['title'].'" alt="'.$image['alt'].'" width="'.$image['width'].'" height="'.$image['height'].'">';
 $html .= '</div></div>';
 $html .= '</div></div></div>';
 $html .= '<div class="bottom_section"><div class="container"><div class="row bottom_row"><div class="col-md-12">';
