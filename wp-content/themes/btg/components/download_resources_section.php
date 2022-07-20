@@ -17,7 +17,11 @@ if( $resources_links ) {
   foreach( $resources_links as $resources_link ) {
       $html .= '<div class="resources_link">';
       if($resources_link['link']){
+<<<<<<< HEAD
       $html .= '<a href="'.$resources_link['link']['url'].'" target="'.$resources_link['link']['target'].'"><img src="'.site_url().'/wp-content/uploads/2022/07/download-pdf-svg.svg"> '.$resources_link['link']['title'].'</a>';
+=======
+      $html .= '<a href="'.$resources_link['link']['url'].'" target="'.$resources_link['link']['target'].'"><img src="'.site_url().'/wp-content/uploads/2022/07/Download-PDF.svg"> '.$resources_link['link']['title'].'</a>';
+>>>>>>> 197f17b8a3c44bf85b7adfe8435ab3ae867a03f0
     }
       $html .= '</div>';
   }
@@ -28,7 +32,11 @@ if( $restricted_resources_links ) {
     foreach( $restricted_resources_links as $restricted_resources_link ) {
         $html .= '<div class="resources_link">';
         if($restricted_resources_link['link']){
+<<<<<<< HEAD
         $html .= '<a href="'.$restricted_resources_link['link']['url'].'" target="'.$restricted_resources_link['link']['target'].'"><img src="'.site_url().'/wp-content/uploads/2022/07/download-pdf-svg.svg"> '.$restricted_resources_link['link']['title'].'</a>';
+=======
+        $html .= '<a href="'.$restricted_resources_link['link']['url'].'" target="'.$restricted_resources_link['link']['target'].'"><img src="'.site_url().'/wp-content/uploads/2022/07/Download-PDF.svg"> '.$restricted_resources_link['link']['title'].'</a>';
+>>>>>>> 197f17b8a3c44bf85b7adfe8435ab3ae867a03f0
         $html .= '<span>Login Required</span>';
       }
         $html .= '</div>';
