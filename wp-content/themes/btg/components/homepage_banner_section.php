@@ -18,18 +18,12 @@ $html .= '</div></div>';
 $html .= '<div class="third_col">';
 if($button_group)
 {
-
 		if($button_group['button_link'])
 		{
 		$html .= '<div class="button_wrap">';
-<<<<<<< HEAD
 		$html .= '<a class="button-link button-link-'.$button_group['button_type'].' hvr-sweep-to-right" href="'.$button_group['button_link']['url'].'" target="'.$button_group['button_link']['target'].'"><span>'.$button_group['button_link']['title'].'</span><img src="'.site_url().'/wp-content/uploads/2022/07/vertical-arrow.svg"></a>';
-=======
-		$html .= '<a class="button-link button-link-'.$button_group['button_type'].' hvr-sweep-to-right" href="'.$button_group['button_link']['url'].'" target="'.$button_group['button_link']['target'].'">'.$button_group['button_link']['title'].'<img src="'.site_url().'/wp-content/uploads/2022/07/vertical-arrow.svg"></a>';
->>>>>>> 197f17b8a3c44bf85b7adfe8435ab3ae867a03f0
 		$html .= '</div>';
 	}
-		
 }
 $html .= '</div>';
 $html .= '</div>';

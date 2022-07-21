@@ -13,12 +13,12 @@ $image = get_sub_field('image');
 if($image_alignment == 'Left')
 {
   $imagealign = 'row-reverse';
-  $padding = 'ps-5';
+  $padding = 'ps-5 pe-3';
 }
 else if($image_alignment == 'Right')
 {
  $imagealign = '';
- $padding = 'pe-5';
+ $padding = 'pe-5 ps-3';
 }
 if($content_width == "Medium")
 		{ 

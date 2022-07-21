@@ -29,8 +29,8 @@ if($content_width == "Medium")
 			}
             
 $html .= '<section class="big_text_with_content_section bottom-box-section '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container"><div class="'.$column_class.'">';
-$html .= '<div class="row '. $imagealign .'"><div class="col-lg-6 d-flex align-items-center pe-5">';
-$html .= '<div class="content_wrap">'.$leftcontent.'</div>';
+$html .= '<div class="row '. $imagealign .'"><div class="col-lg-6 d-flex align-items-center">';
+$html .= '<div class="content_wrap px-5">'.$leftcontent.'</div>';
 $html .= '</div><div class="col-lg-6 col-lg-6 d-flex align-items-center">';
 $html .= '<div class="content_wrap">'.$rightcontent.'</div>';
 $html .= '</div>';

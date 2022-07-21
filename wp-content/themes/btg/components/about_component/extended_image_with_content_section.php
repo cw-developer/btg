@@ -29,11 +29,13 @@ if($image_alignment == 'Left')
 {
   $imagealign = 'row-reverse';
   $padding = 'ps-5';
+  $contentpadding = 'pe-3';
 }
 else if($image_alignment == 'Right')
 {
  $imagealign = '';
  $padding = 'pe-5';
+ $contentpadding = 'ps-5';
 }
 if($content_width == "Medium")
 		{ 
@@ -48,7 +50,7 @@ if($content_width == "Medium")
             
 $html .= '<section class="extended_image_with_content_section animation_collection '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container-fluid p-0"><div class="'.$column_class.'">';
 $html .= '<div class="row '. $imagealign .'"><div class="col-lg-6 d-flex align-items-center '.$padding.'">';
-$html .= '<div class="content_wrap">'.$content.'</div>';
+$html .= '<div class="content_wrap '.$contentpadding.'">'.$content.'</div>';
 $html .= '</div><div class="col-lg-6">';
 if(!empty($image)){
 $html .= '<div class="image-wrap"><img src="'.$image['url'].'" title="'.$image['title'].'" alt="'.$image['alt'].'" width="'.$image['width'].'" height="'.$image['height'].'"></div>';

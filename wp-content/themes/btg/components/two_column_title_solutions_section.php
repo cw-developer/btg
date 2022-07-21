@@ -12,11 +12,7 @@ $html .= '<div class="title_content_wrap first_title_box">';
 $html .= '<div class="breadcrumbs_wrap">'.get_breadcrumb().'</div>';
 $html .= $title_box_1;
 $html .= '</div></div>';
-<<<<<<< HEAD
-$html .= '<div class="col-md-7 p-0 ps-4">';
-=======
-$html .= '<div class="col-md-7 p-0">';
->>>>>>> 197f17b8a3c44bf85b7adfe8435ab3ae867a03f0
+$html .= '<div class="col-md-6 p-0 ps-4">';
 $html .= '<div class="second_title_box content-color-Light"><div class="title_content_wrap"><div class="title_content_inner">';
 $html .= $title_box_2;
 $html .= '</div></div></div>';
@@ -39,11 +35,7 @@ if( $solutions ) {
     $html .= '</div>';
 }
 $html .= '</div></div></div>';
-<<<<<<< HEAD
 $html .= '<div class="col-md-7 p-0 ps-4">';
-=======
-$html .= '<div class="col-md-7 p-0">';
->>>>>>> 197f17b8a3c44bf85b7adfe8435ab3ae867a03f0
 $html .= '<div class="content_wrap content_wrap_right">';
 $html .= $bottom_content_right;
 $html .= '</div></div>';
