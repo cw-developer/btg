@@ -12,12 +12,9 @@
 <div class="col-lg-4 col-md-6">
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 <div class="blog_post cw_blog">	
-<a href="<?php echo get_the_permalink() ?>">
-<div class="blog_thumb_wrap cw_thumb_wrap">
-<?php the_post_thumbnail('medium', array( 'title' => get_the_title(),'alt' => get_the_title() ) );  ?>
-</div>
 <div class="blog_content_wrap">
-<h6><?php the_title(); ?></h6>
-</div></a>
+	<h6><a href="<?php echo get_the_permalink() ?>"><?php the_title(); ?></a></h6>
+</div>
+</div>
 </article><!-- #post-<?php the_ID(); ?> -->
 </div>

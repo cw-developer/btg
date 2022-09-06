@@ -5,7 +5,7 @@
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package btg
- */
+ */	
 
 if ( ! function_exists( 'btg_setup' ) ) :
 	/**
@@ -127,9 +127,11 @@ add_action( 'widgets_init', 'btg_widgets_init' );
  */
 function btg_scripts() {
     wp_enqueue_script('btg-jquery-script','https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js');
+	wp_enqueue_script('btg-jquery-ui','https://code.jquery.com/ui/1.12.1/jquery-ui.min.js');
     wp_enqueue_style( 'btg-style', get_stylesheet_uri() );
     wp_enqueue_style( 'btg-style-bs', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' );
     wp_enqueue_style( 'btg-dev-style', get_template_directory_uri() . '/btg-style.css');
+    // wp_enqueue_style( 'btg-secondary-style', get_template_directory_uri() . '/custom-style.css');
     wp_enqueue_style( 'btg-responsive-style', get_template_directory_uri() . '/responsive-style.css');
     wp_enqueue_style( 'btg-mobile-style', get_template_directory_uri() . '/css/mobile_menu.css');
     wp_enqueue_style( 'btg-font', 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap' );
@@ -138,10 +140,22 @@ function btg_scripts() {
     wp_enqueue_script( 'btg-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
     wp_enqueue_script( 'btg-mobile-js', get_template_directory_uri() . '/js/mobile_menu.js?t');
     wp_enqueue_script( 'btg-script-js', get_template_directory_uri() . '/js/btg-script.js');
+    wp_enqueue_script( 'mousewheel-js', get_template_directory_uri() . '/js/jquery.mousewheel.min.js');
     wp_enqueue_script( 'btg-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
-    //	wp_enqueue_script('btg-bs-popper-script','https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js');
     wp_enqueue_script('btg-bs-script','https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js');
-
+	wp_enqueue_script('btg-bs-bundle-script','https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js');
+if(is_page('Media Gallery')) {
+	wp_enqueue_script( 'lightgallery-js', get_template_directory_uri() . '/js/lightgallery-all.min.js');
+    wp_enqueue_script( 'lightgallery-video-js', get_template_directory_uri() . '/js/lg-video.min.js');
+	wp_enqueue_style( 'lightgallery-css', get_template_directory_uri() . '/css/lightgallery.css' );
+}
+global $post_type;
+	if ('post' == $post_type || is_home() || is_category() || is_tag() || is_post_type_archive() || is_tax() || is_search() ) {
+        global $wp_query;
+        wp_register_script('my_loadmore', get_template_directory_uri() . '/js/myloadmore.js?rf', array('jquery'));
+        wp_localize_script('my_loadmore', 'rf_loadmore_params', array('ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', 'posts' => json_encode($wp_query->query_vars), 'current_page' => get_query_var('paged') ? get_query_var('paged') : 1, 'max_page' => $wp_query->max_num_pages));
+        wp_enqueue_script('my_loadmore');
+    }
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
@@ -151,6 +165,7 @@ function btg_scripts() {
         wp_enqueue_script( 'home-script-js', get_template_directory_uri() . '/js/home.js');
     }
 }
+
 add_action( 'wp_enqueue_scripts', 'btg_scripts' );
 
 /**
@@ -283,6 +298,66 @@ function cptui_register_my_cpts_pressrelease() {
 
 add_action( 'init', 'cptui_register_my_cpts_pressrelease' );
 
+function cptui_register_my_taxes_pressrelease_category() {
+
+	/**
+	 * Taxonomy: Categories.
+	 */
+
+	$labels = [
+		"name" => __( "Categories", "btg" ),
+		"singular_name" => __( "Category", "btg" ),
+		"menu_name" => __( "Categories", "btg" ),
+		"all_items" => __( "All Categories", "btg" ),
+		"edit_item" => __( "Edit Category", "btg" ),
+		"view_item" => __( "View Category", "btg" ),
+		"update_item" => __( "Update Category name", "btg" ),
+		"add_new_item" => __( "Add new Category", "btg" ),
+		"new_item_name" => __( "New Category name", "btg" ),
+		"parent_item" => __( "Parent Category", "btg" ),
+		"parent_item_colon" => __( "Parent Category:", "btg" ),
+		"search_items" => __( "Search Categories", "btg" ),
+		"popular_items" => __( "Popular Categories", "btg" ),
+		"separate_items_with_commas" => __( "Separate Categories with commas", "btg" ),
+		"add_or_remove_items" => __( "Add or remove Categories", "btg" ),
+		"choose_from_most_used" => __( "Choose from the most used Categories", "btg" ),
+		"not_found" => __( "No Categories found", "btg" ),
+		"no_terms" => __( "No Categories", "btg" ),
+		"items_list_navigation" => __( "Categories list navigation", "btg" ),
+		"items_list" => __( "Categories list", "btg" ),
+		"back_to_items" => __( "Back to Categories", "btg" ),
+		"name_field_description" => __( "The name is how it appears on your site.", "btg" ),
+		"parent_field_description" => __( "Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "btg" ),
+		"slug_field_description" => __( "The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "btg" ),
+		"desc_field_description" => __( "The description is not prominent by default; however, some themes may show it.", "btg" ),
+	];
+
+	
+	$args = [
+		"label" => __( "Categories", "btg" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => true,
+		"hierarchical" => true,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'pressrelease-category', 'with_front' => true, ],
+		"show_admin_column" => true,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "pressrelease-category",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => true,
+		"sort" => true,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "pressrelease-category", [ "pressrelease" ], $args );
+}
+add_action( 'init', 'cptui_register_my_taxes_pressrelease_category' );
+
 
 function cptui_register_my_cpts_events() {
 
@@ -357,74 +432,126 @@ function cptui_register_my_cpts_events() {
 
 add_action( 'init', 'cptui_register_my_cpts_events' );
 
-function btg_numeric_posts_nav() {
- 
-    if( is_singular() )
-        return;
- 
-    global $wp_query;
- 
-    /** Stop execution if there's only 1 page */
-    if( $wp_query->max_num_pages <= 1 )
-        return;
- 
-    $paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-    $max   = intval( $wp_query->max_num_pages );
- 
-    /** Add current page to the array */
-    if ( $paged >= 1 )
-        $links[] = $paged;
- 
-    /** Add the pages around the current page to the array */
-    if ( $paged >= 3 ) {
-        $links[] = $paged - 1;
-        $links[] = $paged - 2;
-    }
- 
-    if ( ( $paged + 2 ) <= $max ) {
-        $links[] = $paged + 2;
-        $links[] = $paged + 1;
-    }
- 
-    echo '<div class="navigation"><ul>' . "\n";
- 
-    /** Previous Post Link */
-    if ( get_previous_posts_link() )
-        printf( '<li class="prev_page">%s</li>' . "\n", get_previous_posts_link('<svg xmlns="http://www.w3.org/2000/svg" width="10.691" height="17.313" viewBox="0 0 10.691 17.313"><path id="left-navigate" d="M17.246,6l2.034,2.034-6.608,6.622,6.608,6.622-2.034,2.034L8.59,14.656Z" transform="translate(-8.59 -6)" fill="#ef4949"/></svg>') );
- 
-    /** Link to first page, plus ellipses if necessary */
-    if ( ! in_array( 1, $links ) ) {
-        $class = 1 == $paged ? ' class="active"' : '';
- 
-        printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
- 
-        if ( ! in_array( 2, $links ) )
-            echo '<li>…</li>';
-    }
- 
-    /** Link to current page, plus 2 pages in either direction if necessary */
-    sort( $links );
-    foreach ( (array) $links as $link ) {
-        $class = $paged == $link ? ' class="active"' : '';
-        printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $link ) ), $link );
-    }
- 
-    /** Link to last page, plus ellipses if necessary */
-    if ( ! in_array( $max, $links ) ) {
-        if ( ! in_array( $max - 1, $links ) )
-            echo '<li>…</li>' . "\n";
- 
-        $class = $paged == $max ? ' class="active"' : '';
-        printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
-    }
- 
-    /** Next Post Link */
-    if ( get_next_posts_link() )
-        printf( '<li class="next_page">%s</li>' . "\n", get_next_posts_link('<svg xmlns="http://www.w3.org/2000/svg" width="10.691" height="17.313" viewBox="0 0 10.691 17.313"><path id="right-navigate" d="M10.624,6,8.59,8.034,15.2,14.656,8.59,21.279l2.034,2.034,8.656-8.656Z" transform="translate(-8.59 -6)" fill="#ef4949"/></svg>') );
- 
-    echo '</ul></div>' . "\n";
- 
+function cptui_register_my_taxes_events_category() {
+
+	/**
+	 * Taxonomy: Categories.
+	 */
+
+	$labels = [
+		"name" => __( "Categories", "btg" ),
+		"singular_name" => __( "Category", "btg" ),
+		"menu_name" => __( "Categories", "btg" ),
+		"all_items" => __( "All Categories", "btg" ),
+		"edit_item" => __( "Edit Category", "btg" ),
+		"view_item" => __( "View Category", "btg" ),
+		"update_item" => __( "Update Category name", "btg" ),
+		"add_new_item" => __( "Add new Category", "btg" ),
+		"new_item_name" => __( "New Category name", "btg" ),
+		"parent_item" => __( "Parent Category", "btg" ),
+		"parent_item_colon" => __( "Parent Category:", "btg" ),
+		"search_items" => __( "Search Categories", "btg" ),
+		"popular_items" => __( "Popular Categories", "btg" ),
+		"separate_items_with_commas" => __( "Separate Categories with commas", "btg" ),
+		"add_or_remove_items" => __( "Add or remove Categories", "btg" ),
+		"choose_from_most_used" => __( "Choose from the most used Categories", "btg" ),
+		"not_found" => __( "No Categories found", "btg" ),
+		"no_terms" => __( "No Categories", "btg" ),
+		"items_list_navigation" => __( "Categories list navigation", "btg" ),
+		"items_list" => __( "Categories list", "btg" ),
+		"back_to_items" => __( "Back to Categories", "btg" ),
+		"name_field_description" => __( "The name is how it appears on your site.", "btg" ),
+		"parent_field_description" => __( "Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "btg" ),
+		"slug_field_description" => __( "The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "btg" ),
+		"desc_field_description" => __( "The description is not prominent by default; however, some themes may show it.", "btg" ),
+	];
+
+	
+	$args = [
+		"label" => __( "Categories", "btg" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => true,
+		"hierarchical" => true,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'events_category', 'with_front' => true, ],
+		"show_admin_column" => true,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "events_category",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => true,
+		"sort" => true,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "events_category", [ "events" ], $args );
 }
+add_action( 'init', 'cptui_register_my_taxes_events_category' );
+
+function cptui_register_my_taxes() {
+
+	/**
+	 * Taxonomy: Categories.
+	 */
+
+	$labels = [
+		"name" => __( "Categories", "btg" ),
+		"singular_name" => __( "Category", "btg" ),
+		"menu_name" => __( "Categories", "btg" ),
+		"all_items" => __( "All Categories", "btg" ),
+		"edit_item" => __( "Edit Category", "btg" ),
+		"view_item" => __( "View Category", "btg" ),
+		"update_item" => __( "Update Category name", "btg" ),
+		"add_new_item" => __( "Add new Category", "btg" ),
+		"new_item_name" => __( "New Category name", "btg" ),
+		"parent_item" => __( "Parent Category", "btg" ),
+		"parent_item_colon" => __( "Parent Category:", "btg" ),
+		"search_items" => __( "Search Categories", "btg" ),
+		"popular_items" => __( "Popular Categories", "btg" ),
+		"separate_items_with_commas" => __( "Separate Categories with commas", "btg" ),
+		"add_or_remove_items" => __( "Add or remove Categories", "btg" ),
+		"choose_from_most_used" => __( "Choose from the most used Categories", "btg" ),
+		"not_found" => __( "No Categories found", "btg" ),
+		"no_terms" => __( "No Categories", "btg" ),
+		"items_list_navigation" => __( "Categories list navigation", "btg" ),
+		"items_list" => __( "Categories list", "btg" ),
+		"back_to_items" => __( "Back to Categories", "btg" ),
+		"name_field_description" => __( "The name is how it appears on your site.", "btg" ),
+		"parent_field_description" => __( "Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "btg" ),
+		"slug_field_description" => __( "The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "btg" ),
+		"desc_field_description" => __( "The description is not prominent by default; however, some themes may show it.", "btg" ),
+	];
+
+	
+	$args = [
+		"label" => __( "Categories", "btg" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => true,
+		"hierarchical" => true,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'career_category', 'with_front' => true, ],
+		"show_admin_column" => true,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "career_category",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => true,
+		"sort" => true,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "career_category", [ "careers" ], $args );
+}
+add_action( 'init', 'cptui_register_my_taxes' );
+
 
 function get_breadcrumb() {
     $html = "";
@@ -432,7 +559,7 @@ function get_breadcrumb() {
     $separator          = '/';
     $breadcrums_id      = 'breadcrumbs';
     $breadcrums_class   = 'breadcrumbs';
-    $home_title         = '';
+    $home_title         = 'Home';
       
     // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
     $custom_taxonomy    = 'product_cat';
@@ -445,6 +572,10 @@ function get_breadcrumb() {
        
         // Build the breadcrums
         $html .= '<ul id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
+           
+        // Home page
+        $html .= '<li class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></li>';
+        $html .= '<li class="separator separator-home"> ' . $separator . ' </li>';
            
         if ( is_archive() && !is_tax() && !is_category() && !is_tag() ) {
               
@@ -463,6 +594,7 @@ function get_breadcrumb() {
               
                 $html .= '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
                 $html .= '<li class="separator"> ' . $separator . ' </li>';
+              
             }
               
             $custom_tax_name = get_queried_object()->name;
@@ -648,7 +780,7 @@ function get_breadcrumb() {
         $html .= '</ul>';
            
     }
-       return $html;
+    return $html;      
 }
 
 
@@ -728,7 +860,8 @@ function loadDirectory() {
 $upload_dir = wp_upload_dir();
 ?>
 <script>
-    var theme_directory = "<?php echo get_template_directory_uri() ?>";
+    var site_directory = "<?php echo get_site_url();?>";
+	var theme_directory = "<?php echo get_template_directory_uri() ?>";
 	var uploads_directory = "<?php echo $upload_dir['baseurl'] ?>";
 </script> 
 <?php } 
@@ -747,14 +880,6 @@ function get_components() {
 	}
 }
 
-function get_about_components() {
-	$dir = get_template_directory() . '/components/about_component';
-	foreach ( array_filter( glob( $dir . '/*.*' ), 'is_file' ) as $aboutfile ) {
-		about_component( $aboutfile );
-	}
-}
-
-
 /**
  * Include template components and set up content data
  */
@@ -762,6 +887,13 @@ function component( $file, $c = null ) {
 	global $content_component;
 	$content = $c;
 	require $file;
+}
+
+function get_about_components() {
+	$dir = get_template_directory() . '/components/about_component';
+	foreach ( array_filter( glob( $dir . '/*.*' ), 'is_file' ) as $aboutfile ) {
+		about_component( $aboutfile );
+	}
 }
 
 function about_component( $about_file, $about_c = null ) {
@@ -873,6 +1005,55 @@ function unset_url_field($fields){
 	if(isset($fields['url'])) unset($fields['url']); return $fields; 
 }
 
+// Prevent Multi Submit on all WPCF7 forms
+// add_action( 'wp_footer', 'prevent_cf7_multiple_emails' );
+
+ function prevent_cf7_multiple_emails() {
+?>
+<script>
+var disableSubmit = false;
+jQuery('input.wpcf7-submit[type="submit"]').click(function() {
+jQuery(':input[type="submit"]').attr('value',"Sending…");
+if (disableSubmit == true) {
+return false;
+}
+disableSubmit = true;
+return true;
+})
+
+jQuery('button.wpcf7-submit').click(function() {
+jQuery('button.wpcf7-submit').innerHTML("Sending…");
+if (disableSubmit == true) {
+return false;
+}
+disableSubmit = true;
+return true;
+})
+
+var wpcf7Elm = document.querySelector( '.wpcf7' );
+wpcf7Elm.addEventListener( 'wpcf7_before_send_mail', function( event ) {
+jQuery('button.wpcf7-submit').innerHTML("Sent");
+disableSubmit = false;
+}, false );
+
+wpcf7Elm.addEventListener( 'wpcf7_before_send_mail', function( event ) {
+jQuery('.wpcf7 :input[type="submit"]').attr('value',"Sent");
+disableSubmit = false;
+}, false );
+
+wpcf7Elm.addEventListener( 'wpcf7invalid', function( event ) {
+jQuery('button.wpcf7-submit').innerHTML("Submit");
+disableSubmit = false;
+}, false );
+
+wpcf7Elm.addEventListener( 'wpcf7invalid', function( event ) {
+jQuery('.wpcf7 :input[type="submit"]').attr('value',"Submit");
+disableSubmit = false;
+}, false );
+
+</script>
+<?php	
+}
 //Changing logo onadmin login page
 function cw_admin_dashboard() {  ?> 
 	<style> 
@@ -913,3 +1094,552 @@ add_filter( 'wp_get_attachment_image_src', 'fix_wp_get_attachment_image_svg', 10
     }
     return $image;
 } 
+function rf_loadmore_ajax_handler() {
+    // prepare our arguments for the query
+    $args = json_decode(stripslashes($_POST['query']), true);
+    $args['paged'] = $_POST['page'] + 1; // we need next page to be loaded
+    $args['post_status'] = 'publish';
+    // it is always better to use WP_Query but not here
+    query_posts($args);
+    if (have_posts()):
+        // run the loop
+        while (have_posts()):
+            the_post();
+            // look into your theme code how the posts are inserted, but you can use your own HTML of course
+            // do you remember? - my example is adapted for Twenty Seventeen theme
+          //  set_query_var("index", $index);
+          if(is_archive() || is_blog()){
+			get_template_part('template-parts/content', get_post_type());  
+			  }
+	elseif(! is_post_type_archive() && ! is_tax() && is_search())
+	{
+		get_template_part('template-parts/content', 'search');
+	}
+            // for the test purposes comment the line above and uncomment the below one
+            // the_title();
+            
+        endwhile;
+    endif;
+    die; // here we exit the script and even no wp_reset_query() required!
+    
+}
+add_action('wp_ajax_loadmore', 'rf_loadmore_ajax_handler'); // wp_ajax_{action}
+add_action('wp_ajax_nopriv_loadmore', 'rf_loadmore_ajax_handler'); // wp_ajax_nopriv_{action}
+function is_blog () {
+	if ( (is_archive()) || (is_author()) || (is_category()) || (is_home()) || (is_single()) || (is_tag()) || is_search() ) {
+		return true;
+	}
+	else {
+		return false; 
+	}
+}
+
+function cptui_register_my_cpts_careers() {
+
+	/**
+	 * Post Type: Careers.
+	 */
+
+	$labels = [
+		"name" => __( "Careers", "btg" ),
+		"singular_name" => __( "Career", "btg" ),
+		"menu_name" => __( "Careers", "btg" ),
+		"all_items" => __( "All Careers", "btg" ),
+		"add_new" => __( "Add new", "btg" ),
+		"add_new_item" => __( "Add new Career", "btg" ),
+		"edit_item" => __( "Edit Career", "btg" ),
+		"new_item" => __( "New Career", "btg" ),
+		"view_item" => __( "View Career", "btg" ),
+		"view_items" => __( "View Careers", "btg" ),
+		"search_items" => __( "Search Careers", "btg" ),
+		"not_found" => __( "No Careers found", "btg" ),
+		"not_found_in_trash" => __( "No Careers found in trash", "btg" ),
+		"parent" => __( "Parent Career:", "btg" ),
+		"featured_image" => __( "Featured image for this Career", "btg" ),
+		"set_featured_image" => __( "Set featured image for this Career", "btg" ),
+		"remove_featured_image" => __( "Remove featured image for this Career", "btg" ),
+		"use_featured_image" => __( "Use as featured image for this Career", "btg" ),
+		"archives" => __( "Career archives", "btg" ),
+		"insert_into_item" => __( "Insert into Career", "btg" ),
+		"uploaded_to_this_item" => __( "Upload to this Career", "btg" ),
+		"filter_items_list" => __( "Filter Careers list", "btg" ),
+		"items_list_navigation" => __( "Careers list navigation", "btg" ),
+		"items_list" => __( "Careers list", "btg" ),
+		"attributes" => __( "Careers attributes", "btg" ),
+		"name_admin_bar" => __( "Career", "btg" ),
+		"item_published" => __( "Career published", "btg" ),
+		"item_published_privately" => __( "Career published privately.", "btg" ),
+		"item_reverted_to_draft" => __( "Career reverted to draft.", "btg" ),
+		"item_scheduled" => __( "Career scheduled", "btg" ),
+		"item_updated" => __( "Career updated.", "btg" ),
+		"parent_item_colon" => __( "Parent Career:", "btg" ),
+	];
+
+	$args = [
+		"label" => __( "Careers", "btg" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"rest_namespace" => "wp/v2",
+		"has_archive" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"can_export" => true,
+		"rewrite" => [ "slug" => "careers", "with_front" => true ],
+		"query_var" => true,
+		"menu_icon" => "dashicons-text-page",
+		"supports" => [ "title", "editor" ],
+		"show_in_graphql" => false,
+	];
+
+	register_post_type( "careers", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts_careers' );
+
+function cptui_register_my_cpts_offices() {
+
+	/**
+	 * Post Type: Offices.
+	 */
+
+	$labels = [
+		"name" => __( "Offices", "btg" ),
+		"singular_name" => __( "Office", "btg" ),
+		"menu_name" => __( "Offices", "btg" ),
+		"all_items" => __( "All Offices", "btg" ),
+		"add_new" => __( "Add new", "btg" ),
+		"add_new_item" => __( "Add new Office", "btg" ),
+		"edit_item" => __( "Edit Office", "btg" ),
+		"new_item" => __( "New Office", "btg" ),
+		"view_item" => __( "View Office", "btg" ),
+		"view_items" => __( "View Offices", "btg" ),
+		"search_items" => __( "Search Offices", "btg" ),
+		"not_found" => __( "No Offices found", "btg" ),
+		"not_found_in_trash" => __( "No Offices found in trash", "btg" ),
+		"parent" => __( "Parent Office:", "btg" ),
+		"featured_image" => __( "Featured image for this Office", "btg" ),
+		"set_featured_image" => __( "Set featured image for this Office", "btg" ),
+		"remove_featured_image" => __( "Remove featured image for this Office", "btg" ),
+		"use_featured_image" => __( "Use as featured image for this Office", "btg" ),
+		"archives" => __( "Office archives", "btg" ),
+		"insert_into_item" => __( "Insert into Office", "btg" ),
+		"uploaded_to_this_item" => __( "Upload to this Office", "btg" ),
+		"filter_items_list" => __( "Filter Offices list", "btg" ),
+		"items_list_navigation" => __( "Offices list navigation", "btg" ),
+		"items_list" => __( "Offices list", "btg" ),
+		"attributes" => __( "Offices attributes", "btg" ),
+		"name_admin_bar" => __( "Office", "btg" ),
+		"item_published" => __( "Office published", "btg" ),
+		"item_published_privately" => __( "Office published privately.", "btg" ),
+		"item_reverted_to_draft" => __( "Office reverted to draft.", "btg" ),
+		"item_scheduled" => __( "Office scheduled", "btg" ),
+		"item_updated" => __( "Office updated.", "btg" ),
+		"parent_item_colon" => __( "Parent Office:", "btg" ),
+	];
+
+	$args = [
+		"label" => __( "Offices", "btg" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"publicly_queryable" => false,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"rest_namespace" => "wp/v2",
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => true,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"can_export" => true,
+		"rewrite" => [ "slug" => "offices", "with_front" => true ],
+		"query_var" => true,
+		"menu_icon" => "dashicons-building",
+		"supports" => [ "title" ],
+		"show_in_graphql" => false,
+	];
+
+	register_post_type( "offices", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts_offices' );
+
+function cptui_register_my_taxes_countries() {
+
+	/**
+	 * Taxonomy: Countries.
+	 */
+
+	$labels = [
+		"name" => __( "Countries", "btg" ),
+		"singular_name" => __( "Country", "btg" ),
+		"menu_name" => __( "Countries", "btg" ),
+		"all_items" => __( "All Countries", "btg" ),
+		"edit_item" => __( "Edit Country", "btg" ),
+		"view_item" => __( "View Country", "btg" ),
+		"update_item" => __( "Update Country name", "btg" ),
+		"add_new_item" => __( "Add new Country", "btg" ),
+		"new_item_name" => __( "New Country name", "btg" ),
+		"parent_item" => __( "Parent Country", "btg" ),
+		"parent_item_colon" => __( "Parent Country:", "btg" ),
+		"search_items" => __( "Search Countries", "btg" ),
+		"popular_items" => __( "Popular Countries", "btg" ),
+		"separate_items_with_commas" => __( "Separate Countries with commas", "btg" ),
+		"add_or_remove_items" => __( "Add or remove Countries", "btg" ),
+		"choose_from_most_used" => __( "Choose from the most used Countries", "btg" ),
+		"not_found" => __( "No Countries found", "btg" ),
+		"no_terms" => __( "No Countries", "btg" ),
+		"items_list_navigation" => __( "Countries list navigation", "btg" ),
+		"items_list" => __( "Countries list", "btg" ),
+		"back_to_items" => __( "Back to Countries", "btg" ),
+		"name_field_description" => __( "The name is how it appears on your site.", "btg" ),
+		"parent_field_description" => __( "Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "btg" ),
+		"slug_field_description" => __( "The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "btg" ),
+		"desc_field_description" => __( "The description is not prominent by default; however, some themes may show it.", "btg" ),
+	];
+
+	
+	$args = [
+		"label" => __( "Countries", "btg" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => false,
+		"hierarchical" => true,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'countries', 'with_front' => true, ],
+		"show_admin_column" => true,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "countries",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => true,
+		"sort" => true,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "countries", [ "offices" ], $args );
+}
+add_action( 'init', 'cptui_register_my_taxes_countries' );
+
+function cptui_register_my_taxes_product_fields() {
+
+	/**
+	 * Taxonomy: Product Fields.
+	 */
+
+	$labels = [
+		"name" => __( "Product Fields", "btg" ),
+		"singular_name" => __( "Product Field", "btg" ),
+		"menu_name" => __( "Product Fields", "btg" ),
+		"all_items" => __( "All Product Fields", "btg" ),
+		"edit_item" => __( "Edit Product Field", "btg" ),
+		"view_item" => __( "View Product Field", "btg" ),
+		"update_item" => __( "Update Product Field name", "btg" ),
+		"add_new_item" => __( "Add new Product Field", "btg" ),
+		"new_item_name" => __( "New Product Field name", "btg" ),
+		"parent_item" => __( "Parent Product Field", "btg" ),
+		"parent_item_colon" => __( "Parent Product Field:", "btg" ),
+		"search_items" => __( "Search Product Fields", "btg" ),
+		"popular_items" => __( "Popular Product Fields", "btg" ),
+		"separate_items_with_commas" => __( "Separate Product Fields with commas", "btg" ),
+		"add_or_remove_items" => __( "Add or remove Product Fields", "btg" ),
+		"choose_from_most_used" => __( "Choose from the most used Product Fields", "btg" ),
+		"not_found" => __( "No Product Fields found", "btg" ),
+		"no_terms" => __( "No Product Fields", "btg" ),
+		"items_list_navigation" => __( "Product Fields list navigation", "btg" ),
+		"items_list" => __( "Product Fields list", "btg" ),
+		"back_to_items" => __( "Back to Product Fields", "btg" ),
+		"name_field_description" => __( "The name is how it appears on your site.", "btg" ),
+		"parent_field_description" => __( "Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "btg" ),
+		"slug_field_description" => __( "The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "btg" ),
+		"desc_field_description" => __( "The description is not prominent by default; however, some themes may show it.", "btg" ),
+	];
+
+	
+	$args = [
+		"label" => __( "Product Fields", "btg" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => false,
+		"hierarchical" => true,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'product_fields', 'with_front' => true, ],
+		"show_admin_column" => true,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "product_fields",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => true,
+		"sort" => true,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "product_fields", [ "offices" ], $args );
+}
+add_action( 'init', 'cptui_register_my_taxes_product_fields' );
+
+function custom_type_archive_display($query) {
+    if (is_post_type_archive('event')) {
+         $query->set('posts_per_page',6);
+         $query->set('orderby', 'date' );
+         $query->set('order', 'DESC' );
+        return;
+    }     
+}
+add_action('pre_get_posts', 'custom_type_archive_display');
+function custom_posts_per_page( $query ) {
+if ( is_admin() ) {
+    return;
+}
+if ( $query->is_post_type_archive('events') || $query->is_tax('events_category')) {
+    set_query_var('posts_per_page', 4);
+}
+if ( $query->is_post_type_archive('pressrelease') || $query->is_post_type_archive('careers') || $query->is_tax('pressrelease-category') || $query->is_tax('career_category') || is_search()) {
+    set_query_var('posts_per_page', 9);
+}
+}
+add_action( 'pre_get_posts', 'custom_posts_per_page' );
+add_filter( 'show_admin_bar', '__return_false' );
+
+add_action( 'wp_ajax_get_contact_details', 'get_contact_details' );
+add_action( 'wp_ajax_nopriv_get_contact_details', 'get_contact_details' );
+
+function get_contact_details()
+{
+$result = '';
+if (isset($_POST['country'])) {
+    $country = strip_tags($_POST['country']); 
+	$country_slug = strtolower(preg_replace('/\s+/', '-', $country));
+    }
+
+$args = array(
+	'posts_per_page'  => '12',
+	'post_type' => 'offices',	   
+	'order'        => 'DESC',
+	'post_status'  => 'publish',
+	'tax_query' => array(
+        array(
+            'taxonomy' => 'countries',
+            'field'    => 'slug',
+            'terms'    => $country_slug,
+        ),
+    ),
+);
+$myposts = new WP_Query( $args );
+if ($myposts->have_posts()) {
+    $result .='<h4 class="offices_heading">Offices @ '.$country.'</h4>';
+	$result .= '<div class="contact_outer_wrap '.$country_slug.'">';
+	while ($myposts->have_posts()) {	  
+		$myposts->the_post();
+		$product_fields = get_the_terms( get_the_ID(), 'product_fields' );
+		$result .= '<div class="contact_item item"><div class="contact_item_inner"><div class="contact_title_wrap">';
+		$result .='<div class="country_name">'.$country.'</div>';
+		$result .= '<h5>'.get_the_title().'</h5>';
+		$result .= '</div>';
+		if($product_fields){
+		$result .= '<div class="product_fields_wrap">';
+		$result .= '<h6>We deal with:</h6>';	
+		foreach ( $product_fields as $product_field ) {
+		$result .= '<span>'.$product_field->name.'</span>';
+		}
+			}
+		$result .= '</div>';
+		if(get_field("address", get_the_ID())){
+		$result .= '<div class="address_wrap">';
+		$result .= '<h6>Address:</h6>';
+		$result .= get_field("address", get_the_ID());
+		$result .= '</div>';
+		}
+		$result .= '<div class="email_phone_wrap">';
+		if(get_field("email_address", get_the_ID())){
+		$result .= '<p>Email:<a href="mailto:'.get_field("email_address", get_the_ID()).'"> '.get_field("email_address", get_the_ID()).'</a>';
+		}
+		if(get_field("another_email_address", get_the_ID())){ 
+			$result .= ', <a href="mailto:'.get_field("another_email_address", get_the_ID()).'"> '.get_field("another_email_address", get_the_ID()).'</a></p>';
+		}
+		if(get_field("phone", get_the_ID())){
+		$result .= '<p>Phone: <a href="tel:'.get_field("phone", get_the_ID()).'">'.get_field("phone", get_the_ID()).'</a></p>';
+	}
+		if(get_field("fax", get_the_ID())){
+		$result .= '<p>Fax: '.get_field("fax", get_the_ID()).'</p>';	
+		}
+		$result .= '</div>';
+		$result .= '</div></div>';
+	}
+	wp_reset_postdata();
+	$result .= '</div>';
+	$result .= '<script>contactdetails_carousel();</script>';
+}
+echo $result;	
+	wp_die();
+}
+
+function cptui_register_my_cpts_files() {
+
+	/**
+	 * Post Type: Careers.
+	 */
+
+	$labels = [
+		"name" => __( "My BTG Files", "btg" ),
+		"singular_name" => __( "My BTG File", "btg" ),
+		"menu_name" => __( "My BTG Files", "btg" ),
+		"all_items" => __( "All Files", "btg" ),
+		"add_new" => __( "Add file", "btg" ),
+		"add_new_item" => __( "Add new File", "btg" ),
+		"edit_item" => __( "Edit File", "btg" ),
+		"new_item" => __( "New Career", "btg" ),
+		"view_item" => __( "View File", "btg" ),
+		"view_items" => __( "View Files", "btg" ),
+		"search_items" => __( "Search Files", "btg" ),
+		"not_found" => __( "No Files found", "btg" ),
+		"not_found_in_trash" => __( "No Files found in trash", "btg" ),
+		"parent" => __( "Parent Files:", "btg" ),
+		"featured_image" => __( "Featured image for this Files", "btg" ),
+		"set_featured_image" => __( "Set featured image for this Files", "btg" ),
+		"remove_featured_image" => __( "Remove featured image for this Files", "btg" ),
+		"use_featured_image" => __( "Use as featured image for this Files", "btg" ),
+		"archives" => __( "Files archives", "btg" ),
+		"insert_into_item" => __( "Insert into Files", "btg" ),
+		"uploaded_to_this_item" => __( "Upload to this Files", "btg" ),
+		"filter_items_list" => __( "Filter Files list", "btg" ),
+		"items_list_navigation" => __( "Files list navigation", "btg" ),
+		"items_list" => __( "Files list", "btg" ),
+		"attributes" => __( "Files attributes", "btg" ),
+		"name_admin_bar" => __( "Files", "btg" ),
+		"item_published" => __( "Files published", "btg" ),
+		"item_published_privately" => __( "Files published privately.", "btg" ),
+		"item_reverted_to_draft" => __( "Files reverted to draft.", "btg" ),
+		"item_scheduled" => __( "Files scheduled", "btg" ),
+		"item_updated" => __( "Files updated.", "btg" ),
+		"parent_item_colon" => __( "Parent Files:", "btg" ),
+	];
+
+	$args = [
+		"label" => __( "Files", "btg" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"rest_namespace" => "wp/v2",
+		"has_archive" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"can_export" => true,
+		"rewrite" => [ "slug" => "files", "with_front" => true ],
+		"query_var" => true,
+		"menu_icon" => "dashicons-text-page",
+		"supports" => [ "title", "editor" ],
+		"show_in_graphql" => false,
+	];
+
+	register_post_type( "files", $args );
+}
+add_action( 'init', 'cptui_register_my_cpts_files' );
+
+function cptui_register_my_taxes_files_category() {
+
+	/**
+	 * Taxonomy: Categories.
+	 */
+
+	$labels = [
+		"name" => __( "Categories", "btg" ),
+		"singular_name" => __( "Category", "btg" ),
+		"menu_name" => __( "Categories", "btg" ),
+		"all_items" => __( "All Categories", "btg" ),
+		"edit_item" => __( "Edit Category", "btg" ),
+		"view_item" => __( "View Category", "btg" ),
+		"update_item" => __( "Update Category name", "btg" ),
+		"add_new_item" => __( "Add new Category", "btg" ),
+		"new_item_name" => __( "New Category name", "btg" ),
+		"parent_item" => __( "Parent Category", "btg" ),
+		"parent_item_colon" => __( "Parent Category:", "btg" ),
+		"search_items" => __( "Search Categories", "btg" ),
+		"popular_items" => __( "Popular Categories", "btg" ),
+		"separate_items_with_commas" => __( "Separate Categories with commas", "btg" ),
+		"add_or_remove_items" => __( "Add or remove Categories", "btg" ),
+		"choose_from_most_used" => __( "Choose from the most used Categories", "btg" ),
+		"not_found" => __( "No Categories found", "btg" ),
+		"no_terms" => __( "No Categories", "btg" ),
+		"items_list_navigation" => __( "Categories list navigation", "btg" ),
+		"items_list" => __( "Categories list", "btg" ),
+		"back_to_items" => __( "Back to Categories", "btg" ),
+		"name_field_description" => __( "The name is how it appears on your site.", "btg" ),
+		"parent_field_description" => __( "Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "btg" ),
+		"slug_field_description" => __( "The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "btg" ),
+		"desc_field_description" => __( "The description is not prominent by default; however, some themes may show it.", "btg" ),
+	];
+
+	
+	$args = [
+		"label" => __( "Categories", "btg" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => true,
+		"hierarchical" => true,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'files_category', 'with_front' => true, ],
+		"show_admin_column" => true,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "files_category",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => true,
+		"sort" => true,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "files_category", [ "files" ], $args );
+}
+add_action( 'init', 'cptui_register_my_taxes_files_category' );
+
+
+function gist_acf_upload_dir_prefilter($errors, $file, $field) {
+    if( !current_user_can('edit_pages') ) {
+        $errors[] = 'Only Editors and Administrators may upload attachments';
+    }
+    add_filter('upload_dir', 'gist_acf_upload_dir');
+}
+add_filter('acf/upload_prefilter/key=field_63070245afe11', 'gist_acf_upload_dir_prefilter', 10, 3 );
+
+function gist_acf_upload_dir($param) {
+    $custom_dir = '/uploads/mybtgfiles';
+    $param['path'] = WP_CONTENT_DIR . $custom_dir;
+    $param['url'] = WP_CONTENT_URL . $custom_dir;
+    return $param;
+}

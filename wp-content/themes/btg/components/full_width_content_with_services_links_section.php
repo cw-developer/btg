@@ -5,10 +5,11 @@ $content_color = get_sub_field('content_color');
 $content_width = get_sub_field('content_width'); 
 $content = get_sub_field('content');
 $service_links = get_sub_field('service_links');
+$customclass = get_sub_field('custom_class');
 
 if($content_width == "Medium")
 		{ 
-      		$column_class = "col-lg-10 col-md-10 mx-auto";	
+      		$column_class = "col-lg-10 col-md-12 mx-auto";	
 		} else if($content_width == "Small") { 
       $column_class = "col-lg-7 col-md-10 mx-auto";	
 		 } else if($content_width == "Full") { 
@@ -18,7 +19,7 @@ if($content_width == "Medium")
 			}
 
 $html = '';
-$html .= '<section class="full_width_content_with_services_links_section-block align-'.$content_alignment.' content-color-'.$content_color.'" style="background-color: '.$background_color.'">';
+$html .= '<section id="homeServices" class="full_width_content_with_services_links_section-block align-'.$content_alignment.' content-color-'.$content_color.' '.$customclass.'" style="background-color: '.$background_color.'">';
 $html .= '<div class="container"><div class="row"><div class="'.$column_class.'">'; 
 $html .= '<div class="content_wrap pe-5">';
 $html .= $content;

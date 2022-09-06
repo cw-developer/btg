@@ -18,7 +18,7 @@ get_header();
 		</div>
 	</div>
 </section>
-<section id="innerpage_content" class="innerpage_content blog_listing_content">
+<section id="innerpage_content" class="innerpage_content blog_listing_content search_listing_content">
 	<div class="container">
 		<div class="row">
 					<?php if ( have_posts() ) : ?>
@@ -27,12 +27,15 @@ get_header();
 			while ( have_posts() ) :
 				the_post();
 
-				get_template_part( 'template-parts/content', 'search' );
+				get_template_part( 'template-parts/content' ,'search');
 
 			endwhile;
 
 			//the_posts_navigation();
-			btg_numeric_posts_nav(); 
+// 			btg_numeric_posts_nav(); 
+		global $wp_query;
+if ($wp_query->max_num_pages > 1): echo '<button class="rf_loadmore"><span class="load_more_content">Load More<span><img src="'.site_url().'/wp-content/uploads/2022/07/horizontal-arrow-svg.svg"></span></span></button>';
+		endif;
 
 		else :
 
@@ -45,4 +48,5 @@ get_header();
 </section>
 
 <?php
+echo do_shortcode('[download_assets]');
 get_footer();

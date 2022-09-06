@@ -9,57 +9,29 @@
 
 get_header();
 ?>
-<section id="innerpage_banner" class="innerpage_banner">
+<section class="not_found_content-block">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
-			<h1 class="page-title"><?php echo get_field('not_found_page_title', 'option') ?></h1>
+			<div class="col-md-12 d-flex flex-column  justify-content-center align-items-center">
+				<?php
+				if(have_rows('not_found_content', 'option')):
+    			 while(have_rows('not_found_content', 'option')): the_row();
+			    				$html = '';
+				$not_found_image = get_sub_field('image', 'option');
+				$not_found_group = get_sub_field('button_group', 'option');
+				$html .= '<div class="image_item">';
+$html .= '<img src="'.$not_found_image['url'].'" title="'.$not_found_image['title'].'" alt="'.$not_found_image['alt'].'" width="'.$not_found_image['width'].'" height="'.$not_found_image['height'].'">';
+$html .= '</div>';
+$html .= '<div class="button_wrap">';
+							$html .= '<a class="button-link button-link-'.$not_found_group['button_type'].' hvr-sweep-to-right" href="'.$not_found_group['button_link']['url'].'" target="'.$not_found_group['button_link']['target'].'"><span>'.$not_found_group['button_link']['title'].'</span></a>';
+$html .= '</div>';
+echo $html; 
+				endwhile;
+				endif;
+				?>
 			</div>
 		</div>
 	</div>
 </section>
-	<section class="text_image_section-block gradient-bg section-padding white-bg" style="background-color: <?php echo get_field('not_found_background_color', 'option') ?>">
-
-			<div class="container">
-    <?php $image_position = get_field('not_found_image_position', 'option'); ?>
-<div class="row <?php if($image_position == 'Left'){echo "row-reverse"; }?>">
-<div class="col-md-6">
-	<?php if(get_field('not_found_highlighted_title')){?>
-<h2 class="multi_color_heading"><?php echo get_field('not_found_highlighted_title', 'option'); ?></h2>
-	<?php } ?>
-<?php echo get_field('not_found_content', 'option'); ?>
-<?php if(have_rows('button_group')):?>
-    <?php while( have_rows('button_group') ): the_row(); 	
-$button_type = get_sub_field('button_type'); 
-$link = get_sub_field('button_link');
-if( $link ): 
-    $link_url = $link['url'];
-    $link_title = $link['title'];
-    $link_target = $link['target'] ? $link['target'] : '_self';
-    ?>
-	<div class="button_wrap">
-    <a class="button-link button-link-<?php echo $button_type; ?> hvr-sweep-to-right" href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>"><?php echo esc_html( $link_title ); ?></a>
-	</div>
-	
-<?php endif; ?>
-	<?php endwhile; ?>
-<?php endif;?>
-</div>
-<div class="col-md-6">
-	 <?php $image_alignment = get_field('not_found_image_alignment', 'option'); ?>
-<div class="image_wrap image-<?php echo $image_alignment; ?>">
- <?php 
-$nf_image_id = get_field('not_found_image', 'option');
-$nf_img_url = wp_get_attachment_image_src($nf_image_id, 'full');
-$nf_image_alt = get_post_meta($nf_image_id, '_wp_attachment_image_alt', TRUE);
-$nf_image_title = get_the_title($nf_image_id);
-?>
-<img src="<?php echo $nf_img_url[0]; ?>" alt="<?php echo $nf_image_alt; ?>" title="<?php echo $nf_image_title; ?>"> 
-</div> 
-</div>
-</div>
-</div>
-</section>
-
 <?php
 get_footer();

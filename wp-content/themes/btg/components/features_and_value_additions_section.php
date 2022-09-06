@@ -7,8 +7,9 @@ $shape_position = get_sub_field('shape_position');
 $values = get_sub_field('values');
 $background_color = get_sub_field('background_color');
 $image = get_sub_field('image', 'option');
+$customclass = get_sub_field('custom_class');
 
-$html .= '<section class="features_and_value_additions_section-block '.$shape_position.'-shape">';
+$html .= '<section class="features_and_value_additions_section-block '.$shape_position.'-shape '.$customclass.'">';
 $html .= '<div class="container"><div class="row"><div class="col-md-12">';
 $html .= '<div class="top_features_wrap"><div class="content_wrap">';
 $html .= $top_content;

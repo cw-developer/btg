@@ -3,9 +3,9 @@ $html = '';
 $background_color = get_sub_field('background_color');
 $content_color = get_sub_field('content_color');
 $content_width = get_sub_field('content_width'); 
-$customclass = get_sub_field('custom_class');
 $content_align = get_sub_field('content_alignment');
 $teamdetails = get_sub_field('team_details');
+$customclass = get_sub_field('custom_class');
 if($content_width == "Medium")
 		{ 
       		$column_class = "col-lg-10 col-md-10 mx-auto";	
@@ -16,7 +16,7 @@ if($content_width == "Medium")
 		 } else { 
 			$column_class = "col-md-12";
 			}
-$html .= '<section class="team_details_section bottom-box-section middle-box-section '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container"><div class="'.$column_class.'">';
+$html .= '<section class="team_details_section text-left-animation animation_collection bottom-box-section middle-box-section '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container"><div class="'.$column_class.'">';
 $html .= '<div class="row">';
 $html .= '<div class="team_details_wrap">';
 foreach($teamdetails as $teamdetail)

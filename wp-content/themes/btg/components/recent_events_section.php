@@ -3,6 +3,7 @@ $html = '';
 $content = get_sub_field('content');
 $button_group = get_sub_field('button_group');	
 $background_image = get_sub_field('background_image');
+$customclass = get_sub_field('custom_class');
 $args = array(
 	'posts_per_page'  => '2',
 	'post_type' => 'events',	   
@@ -10,7 +11,7 @@ $args = array(
 	'post_status'  => 'publish'
 );
 $myposts = new WP_Query( $args );
-$html .= '<section class="recent_articles_section-block animation_collection recent_events_section-block background-box-right-animation no-padding">';
+$html .= '<section class="recent_articles_section-block animation_collection recent_events_section-block background-box-right-animation no-padding '.$customclass.'">';
 $html .= '<div class="container"><div class="row"><div class="col-md-12"><div class="title_content_wrap"><div class="title_content">';
 $html .= $content;
 $html .= '</div><div class="empty_div"></div></div>';

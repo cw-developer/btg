@@ -3,6 +3,7 @@ $html = '';
 $content = get_sub_field('content');
 $button_group = get_sub_field('button_group');
 $background_image = get_sub_field('background_image');
+$customclass = get_sub_field('custom_class');
 $args = array(
 	'posts_per_page'  => '4',	 
 	'post_type' => 'post',	   
@@ -10,7 +11,8 @@ $args = array(
 	'post_status'  => 'publish'
 );
 $myposts = new WP_Query( $args );
-$html .= '<section class="recent_articles_section-block animation_collection background-box-left-animation">';
+$html .= '<section class="recent_articles_section-block animation_collection background-box-left-animation '.$customclass.'">';
+$html .= '<div class="desktop-hidden"><img src="'.$background_image.'"></div>';
 $html .= '<div class="container"><div class="row"><div class="col-md-12"><div class="title_content_wrap">';
 $html .= $content;
 $html .= '</div>';

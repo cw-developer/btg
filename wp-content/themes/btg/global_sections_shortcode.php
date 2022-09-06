@@ -53,11 +53,11 @@ $content = get_sub_field('content', 'option');
 $cta_button = get_sub_field('cta_button', 'option');
 $values = get_sub_field('values', 'option');
 $html .= '<section class="btg_values_section-block" style="background-color: '.$background_color.';">';
-$html .= '<div class="container"><div class="row values_map_row"><div class="col-md-8 p-0">';
+$html .= '<div class="container"><div class="row values_map_row"><div class="col-md-8 p-lg-0 p-md-0">';
 $html .= '<div class="image_item">';
 $html .= '<img src="'.$image['url'].'" title="'.$image['title'].'" alt="'.$image['alt'].'" width="'.$image['width'].'" height="'.$image['height'].'">';
 $html .= '</div></div>';
-$html .= '<div class="col-md-4 ps-0"><div class="cta_wrap content-color-Light"><div class="content_wrap cta_content_wrap content-color-Light">';
+$html .= '<div class="col-md-4 ps-lg-0 p-md-0"><div class="cta_wrap content-color-Light"><div class="content_wrap cta_content_wrap content-color-Light">';
 $html .= $cta_content;
 $html .= '</div>';
 
@@ -103,9 +103,9 @@ $html = '';
 $bgcolor =  get_sub_field('background_color', 'option');
 $title =  get_sub_field('title', 'option');
 $content =  get_sub_field('content', 'option');
-$html .= '<section class="btg_protocol_block hideme"><div class="container"><div class="row"><div class="col-md-12"><div class="btg_protocol_content_wrap" style="background-color:'.$bgcolor.'">';
-$html .= '<a class="close_button" href="#" onclick="hideprotocol()"><img src="'.site_url().'/wp-content/uploads/2022/07/close-icon.svg"></a><h5>'.$title.'</h5><p>'.$content.'</p>';
-$html .= '</div></div></div></div></section>';
+$html .= '<section class="btg_protocol_block"><div class="container"><div class="row"><div class="col-md-12"><div class="btg_protocol_content_wrap">';
+$html .= '<a class="close_button" href="javascript:void(0)" onclick="hideprotocol()"><img src="'.site_url().'/wp-content/uploads/2022/07/close-icon.svg"></a><div class="protocol_content"><h5>'.$title.'</h5><div class="protocol_para"><p>'.$content.'</p></div>';
+$html .= '</div></div></div></div></div></section>';
 echo $html;
 ?>
 <?php endwhile; ?>

@@ -14,11 +14,13 @@ if($image_alignment == 'Left')
 {
   $imagealign = 'row-reverse';
   $padding = 'ps-5 pe-3';
+  $wrapanimation = 'content_wrap_left';
 }
 else if($image_alignment == 'Right')
 {
  $imagealign = '';
  $padding = 'pe-5 ps-3';
+ $wrapanimation = 'content_wrap_right';
 }
 if($content_width == "Medium")
 		{ 
@@ -31,9 +33,9 @@ if($content_width == "Medium")
 			$column_class = "col-md-12";
 			}
 			
-$html .= '<section class="image_with_short_content_section mid-box-animation '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container-fluid p-0"><div class="'.$column_class.'">';
+$html .= '<section class="image_with_short_content_section text-left-animation animation_collection mid-box-animation '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container-fluid p-0"><div class="'.$column_class.'">';
 $html .= '<div class="row '. $imagealign .'"><div class="col-lg-5 d-flex align-items-center '.$padding.'">';
-$html .= '<div class="content_wrap">'.$content.'</div>';
+$html .= '<div class="content_wrap'.' '.$wrapanimation.'">'.$content.'</div>';
 $html .= '</div><div class="col-lg-7">';
 if(!empty($image)){
 $html .= '<div class="image-wrap"><img src="'.$image['url'].'" title="'.$image['title'].'" alt="'.$image['alt'].'" width="'.$image['width'].'" height="'.$image['height'].'"></div>';

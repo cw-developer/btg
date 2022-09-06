@@ -3,9 +3,9 @@ Contributors: cozmoslabs, razvan.mo, madalin.ungureanu, sareiodata, cristophor
 Donate link: https://www.translatepress.com/
 Tags: translate, translation, multilingual, automatic translation, bilingual, front-end translation, google translate, language
 Requires at least: 3.1.0
-Tested up to: 6.0
+Tested up to: 6.0.1
 Requires PHP: 5.6.20
-Stable tag: 2.3.1
+Stable tag: 2.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,24 @@ For more information please check out our [documentation](https://translatepress
 
 
 == Changelog ==
+= 2.3.6 =
+* Fixed error when resetting password on WooCommerce form
+
+= 2.3.5 =
+* Added feature to remember user language for WooCommerce emails. Both admins and customers now receive all Woo emails in their preferred language, not just on checkout
+* Improved handling of empty or invalid schema json arrays in script tags on translated languages
+
+= 2.3.4 =
+* Improved compatibility with WooCommerce Payments
+* Fixed php notice about notification_id
+
+= 2.3.3 =
+* Fixed security vulnerability
+
+= 2.3.2 =
+* Added Translate Page button in Gutenberg Editor
+* Improved TranslatePress General settings UI on smaller screens
+
 = 2.3.1 =
 * Added function trp_translate to facilitate custom integrations by other devs
 * Renamed possibly conflicting lang attribute of the template tag used to detect language

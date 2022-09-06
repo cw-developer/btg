@@ -5,13 +5,15 @@ get_header();
 
 $page_content = '';
 $title_visibility = get_field('show_title');
+$bg_color = get_field('background_color');
 if(! is_page('home')){ 
 	if($title_visibility == "Yes")
 	{	
-$page_content .= '<section id="innerpage_banner" class="innerpage_banner">';
-$page_content .= '<div class="container"><div class="row"><div class="col-md-12">';
+$page_content .= '<section id="innerpage_banner" class="innerpage_banner bg-'.$bg_color.'">';
+$page_content .= '<div class="container"><div class="row"><div class="col-md-12"><div class="title_breadcrumbs_wrap">';
+$page_content .= '<div class="breadcrumbs_wrap">'.get_breadcrumb().'</div>';
 $page_content .= '<h1>'.get_the_title().'</h1>';
-$page_content .= '</div></div></div>';
+$page_content .= '</div></div></div></div>';
 $page_content .= '</section>';
 	}
 }

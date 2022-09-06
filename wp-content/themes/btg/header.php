@@ -63,11 +63,27 @@
   
   <div class="mk-fullscreen-search-overlay" id="mk-search-overlay">
     <a href="#" class="mk-fullscreen-close" id="mk-fullscreen-close-button"><img src="<?php echo site_url(); ?>/wp-content/uploads/2022/07/close-icon.svg"></a>
-    <div id="mk-fullscreen-search-wrapper">
+    <div id="mk-fullscreen-search-wrapper" class="search-wrap">
       <form method="get" id="mk-fullscreen-searchform" action="<?php echo site_url();?>">
         <input type="text" value="" name="s" placeholder="Search..." id="mk-fullscreen-search-input" autocomplete="off">
         <i class="fa fa-search fullscreen-search-icon"><input value="" type="submit"></i>
       </form>
+	<ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: none;"></ul>
+                              <script type="text/javascript">
+                                 jQuery("#mk-fullscreen-search-input").autocomplete({ 
+                                 source: '<?php echo site_url(); ?>/wp-content/themes/btg/ajax/search_results.php', 
+                                 appendTo: ".search-wrap",
+                                 minLength:1
+                                 }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                                 if(item.posttype == 'post') { posttypegen =  'News'}
+								 if(item.posttype == 'pressrelease') { posttypegen =  'Press Release'}	 
+                                 else { posttypegen =  item.posttype }
+                                 return $("<li class='"+ item.elementnum +"' ></li>")
+                                 .data("item.autocomplete", item)
+                                 .append("<a href='"+ item.url +"'>" + item.label + "</a><span class='search_post_type'>" + posttypegen + "</span>")
+                                 .appendTo(ul);
+                                 };
+                              </script>    
     </div>
   </div>
   </div>
@@ -97,6 +113,22 @@
 									'menu_id'        => 'primary-menu',
 								) );
 								?>
+							</nav><!-- #site-navigation -->	
+							<nav id="site-navigation" class="mobile-navigation">
+								<?php
+								wp_nav_menu( array(
+									'theme_location' => 'primary',
+									'menu_id'        => 'primary-menu',
+								) );
+								wp_nav_menu( array(
+									'theme_location' => 'top-header',
+									'menu_id'        => 'top-header',
+								) );
+								?>
+							<div class="mybtg_wrap">
+								<a href="<?php echo site_url(); ?>/contact" target="_blank" class="button-link button-link-Primary hvr-sweep-to-right">contact</a>	
+								<a href="https://my.btg.com/en/login/" target="_blank" class="my_btg">My BTG</a>	
+							</div>
 							</nav><!-- #site-navigation -->	
 							</div>
 							

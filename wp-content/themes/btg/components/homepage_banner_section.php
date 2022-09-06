@@ -4,9 +4,10 @@ $content_box_1 = get_sub_field('content_box_1');
 $content_box_2 = get_sub_field('content_box_2');
 $button_group = get_sub_field('button_group');
 $background_image = get_sub_field('background_image');
+$customclass = get_sub_field('custom_class');
 
 $html .= '<style>.homepage_banner_section-block::before{background-image: url('.$background_image.');}</style>';
-$html .= '<section class="homepage_banner_section-block animation_collection no-padding"><div class="inner_section content-color-Light">';
+$html .= '<section class="homepage_banner_section-block animation_collection no-padding '.$customclass.'"><div class="inner_section content-color-Light">';
 $html .= '<div class="container"><div class="row"><div class="col-md-12">';
 $html .= '<div class="home_banner_inner_wrap">';
 $html .= '<div class="first_col"><div class="content_wrap">';

@@ -32,3 +32,11 @@ $(window).on('load', function() {
   });
 
 });
+$(document).ready(function(){
+	jQuery('.third_col a[href^="#"]').click(function(){
+		var href = jQuery(this).attr('href');
+		jQuery('html, body').animate({scrollTop: jQuery(href).offset().top}, 700);
+		return false; 
+	});
+});
+home_page_hover();

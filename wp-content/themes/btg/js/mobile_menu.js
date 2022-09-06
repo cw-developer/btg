@@ -31,9 +31,9 @@ jQuery(document).ready(function ($) {
                 var defaults = {
                         meanMenuTarget: jQuery(this), // Target the current HTML markup you wish to replace
                         meanMenuContainer: '.header-right', // Choose where meanmenu will be placed within the HTML
-                        meanMenuClose: '<img src="' + uploads_directory + '/2022/01/close_icon.svg" alt="Close" width="25" height="25">', // single character you want to represent the close menu button
+                        meanMenuClose: '', // single character you want to represent the close menu button
                         meanMenuCloseSize: "18px", // set font size of close button
-                        meanMenuOpen: '<img src="' + uploads_directory + '/2021/09/menu-trigger.svg" alt="Menu Trigger" width="35" height="35">', // text/markup you want when menu is closed
+                        meanMenuOpen: '<svg class="hamburger" viewBox="0 0 100 80" width="30" height="30"><rect width="75" height="10" rx="5" ry="5" x="25"></rect><rect y="30" width="100" height="10" rx="5" ry="5"></rect><rect y="60" width="50" height="10" rx="5" ry="5" x="50"></rect></svg><svg class="close_icon" viewBox="0 0 100 80" width="30" height="30"><rect width="100" height="10" rx="5" ry="5"></rect><rect width="100" height="10" rx="5" ry="5"></rect></svg>', // text/markup you want when menu is closed
                         meanReveactosition: "right", // left right or center positions
                         meanReveactositionDistance: "0", // Tweak the position of the menu
                         meanRevealColour: "", // override CSS colours for the reveal background
@@ -120,11 +120,11 @@ jQuery(document).ready(function ($) {
 
                         var meanInner = function() {
                                 // get last class name
-                                if (jQuery($navreveal).is(".meanmenu-reveal.meanclose")) {
-                                        $navreveal.html(meanMenuClose);
-                                } else {
-                                        $navreveal.html(meanMenuOpen);
-                                }
+//                                 if (jQuery($navreveal).is(".meanmenu-reveal.meanclose")) {
+//                                         $navreveal.html(meanMenuClose);
+//                                 } else {
+//                                         $navreveal.html(meanMenuOpen);
+//                                 }
                         };
 
                         // re-instate original nav (and call this on window.width functions)
@@ -177,7 +177,7 @@ jQuery(document).ready(function ($) {
                                     $navreveal = jQuery(meanRevealClass);
 
                                     //hide mean-nav ul
-                                    jQuery('.mean-nav ul').hide();
+//                                     jQuery('.mean-nav ul').hide();
 
                                     // hide sub nav
                                     if(meanShowChildren) {
@@ -215,10 +215,12 @@ jQuery(document).ready(function ($) {
                                                 $navreveal.css("text-align", "center");
                                                 $navreveal.css("text-indent", "0");
                                                 $navreveal.css("font-size", meanMenuCloseSize);
-                                                jQuery('.mean-nav ul:first').slideDown();
+                                                jQuery('.mean-nav').toggleClass('sliderLeft');
+												jQuery('.site-header').toggleClass('fixed_header');
                                                 menuOn = true;
                                         } else {
-                                            jQuery('.mean-nav ul:first').slideUp();
+                                            jQuery('.site-header').toggleClass('fixed_header');
+											jQuery('.mean-nav').toggleClass('sliderLeft');
                                             menuOn = false;
                                         }
                                             $navreveal.toggleClass("meanclose");
@@ -286,7 +288,7 @@ jQuery(document).ready(function ($) {
 }); 
 
 jQuery(document).ready(function ($) {
-    $('header nav').meanmenu();
+    $('header nav.mobile-navigation').meanmenu();
 
     $(window).scroll(function() { 
         var scroll = $(window).scrollTop();

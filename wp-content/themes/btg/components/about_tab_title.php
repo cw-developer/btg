@@ -5,7 +5,9 @@ $content_width = get_sub_field('content_width');
 $content_alignment = get_sub_field('content_alignment');
 $content_color = get_sub_field('content_color');
 $titles = get_sub_field('tab_title');
-$html .= '<section class="about_tab_title">';
+$customclass = get_sub_field('custom_class');
+
+$html .= '<section class="about_tab_title '.$customclass.'">';
 $html .= '<div class="container"><ul class="nav nav-tabs">';
 foreach( $titles as $title ) {
 	$removespace = preg_replace('/\s+/', '', $title['title']);

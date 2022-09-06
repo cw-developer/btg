@@ -21,6 +21,10 @@ else if($animation == 'Box Move Animation')
 {
 	$animationclass = 'background-box-move-animation';
 }
+else if($animation == 'Mobile Box Move Animation')
+{
+	$animationclass = 'background-box-mobile-animation';
+}
 else if($animation == 'No Animation')
 {
 	$animationclass = '';
@@ -30,12 +34,14 @@ if($image_alignment == 'Left')
   $imagealign = 'row-reverse';
   $padding = 'ps-5';
   $contentpadding = 'pe-3';
+  $wrapanimation = 'content_wrap_left';
 }
 else if($image_alignment == 'Right')
 {
  $imagealign = '';
  $padding = 'pe-5';
  $contentpadding = 'ps-5';
+ $wrapanimation = 'content_wrap_right';
 }
 if($content_width == "Medium")
 		{ 
@@ -48,9 +54,9 @@ if($content_width == "Medium")
 			$column_class = "col-md-12";
 			}
             
-$html .= '<section class="extended_image_with_content_section animation_collection '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container-fluid p-0"><div class="'.$column_class.'">';
+$html .= '<section class="extended_image_with_content_section text-left-animation animation_collection '.$customclass.' '.$animationclass.' content-color-'.$content_color.' align-'.$content_align.'" style="background-color: '.$background_color.'"><div class="container-fluid p-0"><div class="'.$column_class.'">';
 $html .= '<div class="row '. $imagealign .'"><div class="col-lg-6 d-flex align-items-center '.$padding.'">';
-$html .= '<div class="content_wrap '.$contentpadding.'">'.$content.'</div>';
+$html .= '<div class="content_wrap '.$contentpadding.' '.$wrapanimation.'">'.$content.'</div>';
 $html .= '</div><div class="col-lg-6">';
 if(!empty($image)){
 $html .= '<div class="image-wrap"><img src="'.$image['url'].'" title="'.$image['title'].'" alt="'.$image['alt'].'" width="'.$image['width'].'" height="'.$image['height'].'"></div>';

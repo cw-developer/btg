@@ -4,11 +4,12 @@ $parallax = get_sub_field('parallax');
 $image = get_sub_field('image');
 $mobileimage = get_sub_field('mobile_image');
 $parallax_class = get_sub_field('parallax') == 'Yes' ? 'parallax_section' : 'no_parallax_section';
+$customclass = get_sub_field('custom_class');
 if($parallax == 'Yes')
 {
 	$html .= '<style>.full_width_image_section_parallax-block{background-image: url('.$image['url'].';);}</style>';	
 }
-$html .= '<section class="full_width_image_section_parallax-block '.$parallax_class.'">';
+$html .= '<section class="full_width_image_section_parallax-block '.$parallax_class.' '.$customclass.'">';
 if($parallax == 'No')
 {
 	$html .= '<div class="parallax_img_wrap desktop_img_wrap">';

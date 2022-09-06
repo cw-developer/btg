@@ -61,8 +61,6 @@ class Ajax {
 		// Handle the smush pro dismiss features notice ajax.
 		add_action( 'wp_ajax_dismiss_upgrade_notice', array( $this, 'dismiss_upgrade_notice' ) );
 		// Handle the smush pro dismiss features notice ajax.
-		add_action( 'wp_ajax_dismiss_welcome_notice', array( $this, 'dismiss_welcome_notice' ) );
-		// Handle the smush pro dismiss features notice ajax.
 		add_action( 'wp_ajax_dismiss_update_info', array( $this, 'dismiss_update_info' ) );
 		// Handle ajax request to dismiss the s3 warning.
 		add_action( 'wp_ajax_dismiss_s3support_alert', array( $this, 'dismiss_s3support_alert' ) );
@@ -70,7 +68,7 @@ class Ajax {
 		add_action( 'wp_ajax_hide_api_message', array( $this, 'hide_api_message' ) );
 		add_action( 'wp_ajax_smush_show_warning', array( $this, 'show_warning_ajax' ) );
 		// Detect conflicting plugins.
-		add_action( 'wp_ajax_dismiss_check_for_conflicts', array( $this, 'dismiss_check_for_conflicts' ) );
+		add_action( 'wp_ajax_smush_dismiss_notice', array( $this, 'dismiss_notice' ) );
 
 		/**
 		 * SMUSH
@@ -247,14 +245,6 @@ class Ajax {
 	}
 
 	/**
-	 * Store a key/value to hide the smush features on bulk page
-	 */
-	public function dismiss_welcome_notice() {
-		update_site_option( 'wp-smush-hide_smush_welcome', true );
-		wp_send_json_success();
-	}
-
-	/**
 	 * Remove the Update info
 	 *
 	 * @param bool $remove_notice  Remove notice.
@@ -302,9 +292,20 @@ class Ajax {
 	 *
 	 * @since 3.6.0
 	 */
-	public function dismiss_check_for_conflicts() {
-		update_option( 'wp-smush-hide-conflict-notice', true );
+	public function dismiss_notice() {
+		if ( empty( $_GET['key'] ) ) {
+			wp_send_json_error();
+		}
+
+		$this->set_notice_dismissed( $_GET['key'] );
 		wp_send_json_success();
+	}
+
+	private function set_notice_dismissed( $notice ) {
+		$option_id                    = 'wp-smush-dismissed-notices';
+		$dismissed_notices            = get_option( $option_id, array() );
+		$dismissed_notices[ $notice ] = true;
+		update_option( $option_id, $dismissed_notices );
 	}
 
 	/***************************************
@@ -431,6 +432,7 @@ class Ajax {
 				array(
 					'notice'      => esc_html__( 'We haven’t found any images in your media library yet so there’s no smushing to be done! Once you upload images, reload this page and start playing!', 'wp-smushit' ),
 					'super_smush' => $this->settings->get( 'lossy' ),
+					'no_images'   => true,
 				)
 			);
 		}

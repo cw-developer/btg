@@ -98,6 +98,8 @@
 <?php __("Top Left", "translatepress-multilingual"); ?>
 <?php __("Dark", "translatepress-multilingual"); ?>
 <?php __("Light", "translatepress-multilingual"); ?>
+<?php __("Invalid language code. Please try again.", "translatepress-multilingual"); ?>
+<?php __("Language codes can contain only A-Z a-z 0-9 - _ characters. Check your language codes in TranslatePress General Settings.", "translatepress-multilingual"); ?>
 <?php __("Error! Duplicate URL slug values.", "translatepress-multilingual"); ?>
 <?php __("Current Language", "translatepress-multilingual"); ?>
 <?php __("Opposite Language", "translatepress-multilingual"); ?>
@@ -177,6 +179,7 @@
 <?php __("Visual Editor", "translatepress-multilingual"); ?>
 <?php __("String Translation", "translatepress-multilingual"); ?>
 <?php __("Translate Page", "translatepress-multilingual"); ?>
+<?php __("Opens post in the translation editor. Post must be saved as draft or published beforehand.", "translatepress-multilingual"); ?>
 <?php __("Security check", "translatepress-multilingual"); ?>
 <?php __("<strong>Warning:</strong> Some strings have possibly incorrectly encoded characters. This may result in breaking the queries, rendering the page untranslated in live mode. Consider revising the following strings or their method of outputting.", "translatepress-multilingual"); ?>
 <?php __("Description", "translatepress-multilingual"); ?>

@@ -12,45 +12,23 @@ get_header();
 <section id="single_banner" class="innerpage_banner">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 mx-auto">
+			<div class="col-md-9">
+								<div class="breadcrumbs_wrap"><ul id="breadcrumbs" class="breadcrumbs"><li class="item-home"><a class="bread-link bread-home" href="https://btgdev.azurewebsites.net" title="Home">Home</a></li><li class="separator separator-home"> / </li><li class="item-cat item-custom-post-type-careers"><a class="bread-cat bread-custom-post-type-careers" href="https://btgdev.azurewebsites.net/careers/" title="Careers">News</a></li></ul></div>
 				<h1><?php the_title(); ?></h1>
 			</div>
 		</div>
 	</div>
 </section>
 
-<section class="blog_single_top">
+<section class="cw_blog_single_content pt-0">
 	<div class="container">
+	<div class="col-md-9">
 		<div class="row">
-			<div class="col-md-9 mx-auto">
-<div class="featured_image_wrap">
-<?php the_post_thumbnail(); ?>
-</div>
-<div class="single_post_meta_wrap">
-<div class="single_post_meta category_wrap">
-<?php
-								$categories = get_the_category();
-								if ( ! empty( $categories ) ) {
-                  ?><p>Category: <?php
-									foreach($categories as $cd)
-                  {
-                  echo '<a class="cat_button_link" href="' . esc_url( get_category_link( $cd->term_id ) ) . '">' . esc_html( $cd->name ) . '</a>';
-                  }
-								} ?></p>
-							</div>
-							<div class="single_post_meta post_date_wrap">
-								<p>Date: <span><?php $post_date = get_post_modified_time( 'F j, Y' ); 
-									echo $post_date; ?></span></p>
-							</div>
-</div>				
-</div>
-		</div>
-	</div>
-</section>
-<section class="cw_blog_single_content">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-9 mx-auto">
+			<div class="col-md-2 content_before_box">
+				<div class="fill_color_box">
+				</div>
+			</div>
+			<div class="col-md-10 ps-lg-4">
 			<?php
 			while ( have_posts() ) :
 				the_post();
@@ -58,15 +36,24 @@ get_header();
 				<?php the_content(); ?>
 			<?php						
 			endwhile; // End of the loop.
-			?>
+			$file = get_field('pdf_download');
+			$url = $file['url'];
+			$title = $file['title'];
+			$caption = $file['caption'];
+			$icon = $file['icon'];
+		
+if( $file ): ?>
+        <a class="file_wrap" href="<?php echo esc_attr($url); ?>" title="<?php echo esc_attr($title); ?>"><img src="<?php echo site_url() ?>/wp-content/uploads/2022/07/download-pdf-svg.svg"><span class="file_title"><?php echo $title; ?></span></a>
+<?php endif; ?>
+			</div>
 			 </div>
 		</div>
 	</div>
 </section>
 <section class="prev_next_section blog_prev_next_section">
 <div class="container">
+<div class="col-md-9">	
 <div class="row">
-<div class="col-md-9 mx-auto">	
 <div class="post-nav portfolio-nav">
 <div class="alignleft prev-post-nav post-nav-wrap hvr-backward">
 <?php
@@ -74,11 +61,11 @@ get_header();
     if ($prev_post)
     {
         $prev_title = strip_tags(str_replace('"', '', $prev_post->post_title));
-        if (strlen($prev_title) >= 45)  //<-- here is your custom checking
+        if (strlen($prev_title) >= 60)  //<-- here is your custom checking
         {
-            $prev_title = (substr($prev_title, 0, 45)) . "...";
+            $prev_title = (substr($prev_title, 0, 60)) . "";
         }
-        echo "\t" . '<a rel="prev" href="' . get_permalink($prev_post->ID) . '" title="' . $prev_title . '" class=" "><img src="'.site_url().'/wp-content/themes/ct/images/angle-right-circle.svg" title="' . $prev_title . '" alt="' . $prev_title . '" width="35" height="35">'. $prev_title . '</a>' . "\n";
+        echo "\t" . '<a rel="prev" href="' . get_permalink($prev_post->ID) . '" title="' . $prev_title . '" class=" "><span>'. $prev_title . '</span><img src="'.site_url().'/wp-content/uploads/2022/07/horizontal-arrow.svg" title="' . $prev_title . '" alt="' . $prev_title . '" width="35" height="35"></a>' . "\n";
     }
 
     ?>	
@@ -91,9 +78,9 @@ get_header();
         $next_title = strip_tags(str_replace('"', '', $next_post->post_title));
         if (strlen($next_title) >= 45)  //<-- here is your custom checking
         {
-            $next_title = (substr($next_title, 0, 45)) . "...";
+            $next_title = (substr($next_title, 0, 45)) . "";
         }
-        echo "\t" . '<a rel="next" href="' . get_permalink($next_post->ID) . '" title="' . $next_title . '" class=" ">'. $next_title . '<img src="'.site_url().'/wp-content/themes/ct/images/angle-right-circle.svg" title="' . $next_title . '" alt="' . $next_title . '" width="35" height="35"></a>' . "\n";
+        echo "\t" . '<a rel="next" href="' . get_permalink($next_post->ID) . '" title="' . $next_title . '" class=" "><span>'. $next_title . '</span><img src="'.site_url().'/wp-content/uploads/2022/07/horizontal-arrow.svg" title="' . $next_title . '" alt="' . $next_title . '" width="35" height="35"></a>' . "\n";
     }
 
     ?>	
@@ -102,64 +89,7 @@ get_header();
 </div>
 </div>
 </div> 
-</div>
-</section>
-<section class="related_posts_section blog_listing_content">
-<div class="container small-container">
-<div class="row">
-	<h3>Related Posts</h3>
-<?php
-$related = get_posts( array( 'category__in' => wp_get_post_categories($post->ID), 'numberposts' => 3, 'post__not_in' => array($post->ID) ) );
-if( $related ) foreach( $related as $post ) {
-setup_postdata($post); ?>
- <div class="col-lg-4 col-md-6">
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-<div class="blog_post cw_blog">	
-<a href="<?php echo get_the_permalink() ?>">
-<div class="blog_thumb_wrap cw_thumb_wrap">
-<?php the_post_thumbnail(); ?>
-</div>
-<div class="blog_content_wrap">
-<h4><?php the_title(); ?></h4>
-	</div></a></div>
-</article><!-- #post-<?php the_ID(); ?> -->
-</div>
-<?php }
-wp_reset_postdata(); ?>
-</div> 
-</div>
-</section>
-<section class="author_section blog_listing_content" id="author_section">
-<div class="container small-container">
-<div class="row">
-	<div class="col-md-3">
-		<?php $author_id=$post->post_author; ?>
-		<?php $avatar_url  = get_avatar_url( $author_id, ['size' => '250'] ); //this will give 96x96 image.
-?><img src="<?php echo $avatar_url; ?>" alt="<?php the_author_meta( 'display_name' , $author_id ); ?>" title="<?php the_author_meta( 'display_name' , $author_id ); ?>" width="250" height="250">
-</div>
-	<div class="col-md-9">
-		<h5>About the Author - <?php the_author_meta( 'display_name' , $author_id ); ?></h5>
-<p><?php the_author_meta( 'description' , $author_id ); ?></p>
-</div>
-
-	</div> 
-</div>
-</section>
-<section class="comments_section blog_listing_content">
-<div class="container small-container">
-<div class="row">
-	<div class="col-md-12">
-<div class="comment_wrap">
-					<?php	
-				// If comments are open or we have at least one comment, load up the comment template.
-				if ( comments_open() || get_comments_number() ) {
-					comments_template();
-				}
-					?>	
-				</div>
-</div>
-</div> 
-</div>
 </section>
 <?php
+echo do_shortcode('[download_assets]');
 get_footer();

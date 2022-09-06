@@ -4,9 +4,10 @@ $content_alignment = get_sub_field('content_alignment');
 $content = get_sub_field('content');
 $resources_links = get_sub_field('resources_links');
 $restricted_resources_links = get_sub_field('restricted_resources_links');
+$customclass = get_sub_field('custom_class');
 
 $html = '';
-$html .= '<section class="download_resources_section-block" style="background-color: '.$background_color.'">';
+$html .= '<section class="download_resources_section-block '.$customclass.'" style="background-color: '.$background_color.'">';
 $html .= '<div class="container"><div class="row"><div class="col-md-12">'; 
 $html .= '<div class="content_wrap align-'.$content_alignment.'">';
 $html .= $content;
