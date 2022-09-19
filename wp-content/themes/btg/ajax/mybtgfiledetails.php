@@ -5,7 +5,6 @@ function my_file_data(){
 $user_id = get_current_user_id();
 $full_file_details = array();
 $getvalue = unserialize(get_user_meta($user_id, 'download_log', true));
-print_r($getvalue);
   if($getvalue)
   {
     $full_file_details =  $getvalue;

@@ -172,6 +172,7 @@ add_action( 'wp_enqueue_scripts', 'btg_scripts' );
  * Implement the Custom Header feature.
  */
 require get_template_directory() . '/inc/custom-header.php';
+require get_template_directory() . '/ajax/mybtgfiledetails.php';
 
 /**
  * Custom template tags for this theme.
@@ -187,6 +188,7 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
 
 /**
  * Load Jetpack compatibility file.
